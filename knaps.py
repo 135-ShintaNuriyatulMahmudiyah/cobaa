@@ -82,7 +82,7 @@ with preporcessing:
     dataOlah = pd.concat([Sex, Category], axis=1)
     dataHasil = pd.concat([df,dataOlah], axis = 1)
 
-    X = dataHasil.drop(columns=["Sex", "Category"])
+    x = dataHasil.drop(columns=["Sex", "Category"])
     y = dataHasil.Category
     "### Normalize data hasil"
     X
@@ -90,9 +90,9 @@ with preporcessing:
     
     scaler=MinMaxScaler()
     scaler.fit(X)
-    X=scaler.transform(X)
+    x=scaler.transform(x)
     "### Normalize data transformasi"
-    X
+    x
     
     labels = pd.get_dummies(dataHasil.Category).columns.values.tolist()
 
@@ -100,24 +100,24 @@ with preporcessing:
 
     
     scaler=MinMaxScaler()
-    scaler.fit(X)
-    X=scaler.transform(X)
-    X
+    scaler.fit(x)
+    X=scaler.transform(x)
+    x
 
-    X.shape, y.shape
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+    x.shape, y.shape
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=42)
     ss=StandardScaler()
-    X_test= ss.fit_transform(X_test)
-    X_train = ss.fit_transform(X_train)
+    x_test= ss.fit_transform(x_test)
+    x_train = ss.fit_transform(x_train)
 
 
 
 with modeling:
-    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=4)
+    x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=4)
     from sklearn.preprocessing import StandardScaler
     sc = StandardScaler()
-    X_train = sc.fit_transform(X_train)
-    X_test = sc.transform(X_test)
+    x_train = sc.fit_transform(x_train)
+    x_test = sc.transform(x_test)
     
     st.write("""# Modeling """)
     st.subheader("Berikut ini adalah pilihan untuk Modeling")
