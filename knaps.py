@@ -49,13 +49,13 @@ with preporcessing:
     df
 
     le = preprocessing.LabelEncoder()
-    le.fit👍
-    y = le.transform👍
+    le.fit(y)
+    y = le.transform(y)
 
     "### Transformasi Label"
     y
 
-    le.inverse_transform👍
+    le.inverse_transform(y)
 
     labels = pd.get_dummies(df.Category).columns.values.tolist()
 
