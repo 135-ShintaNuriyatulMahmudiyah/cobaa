@@ -89,7 +89,7 @@ with preporcessing:
     
     
     scaler=MinMaxScaler()
-    scaler.fit(X)
+    scaler.fit(x)
     x=scaler.transform(x)
     "### Normalize data transformasi"
     x
@@ -146,18 +146,18 @@ with modeling:
     # KNN 
     K=10
     knn=KNeighborsClassifier(n_neighbors=K)
-    knn.fit(X_train,y_train)
-    y_pred=knn.predict(X_test)
+    knn.fit(x_train,y_train)
+    y_pred=knn.predict(x_test)
 
     skor_akurasi = round(100 * accuracy_score(y_test,y_pred))
 
     # DT
 
     dt = DecisionTreeClassifier()
-    dt.fit(X_train, y_train)
+    dt.fit(x_train, y_train)
     # prediction
-    dt.score(X_test, y_test)
-    y_pred = dt.predict(X_test)
+    dt.score(x_test, y_test)
+    y_pred = dt.predict(x_test)
     #Accuracy
     akurasiii = round(100 * accuracy_score(y_test,y_pred))
 
