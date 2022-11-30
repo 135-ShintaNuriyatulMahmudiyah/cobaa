@@ -102,22 +102,22 @@ with preporcessing:
     scaler=MinMaxScaler()
     scaler.fit(x)
     X=scaler.transform(x)
-    x
+    X
 
-    x.shape, y.shape
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=42)
+    X.shape, y.shape
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
     ss=StandardScaler()
-    x_test= ss.fit_transform(x_test)
-    x_train = ss.fit_transform(x_train)
+    Xtest= ss.fit_transform(X_test)
+    X_train = ss.fit_transform(X_train)
 
 
 
 with modeling:
-    x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=4)
+    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=4)
     from sklearn.preprocessing import StandardScaler
     sc = StandardScaler()
-    x_train = sc.fit_transform(x_train)
-    x_test = sc.transform(x_test)
+    X_train= sc.fit_transform(X_train)
+    X_test = sc.transform(X_test)
     
     st.write("""# Modeling """)
     st.subheader("Berikut ini adalah pilihan untuk Modeling")
@@ -132,8 +132,8 @@ with modeling:
     # KNN 
     K=10
     knn=KNeighborsClassifier(n_neighbors=K)
-    knn.fit(x_train,y_train)
-    y_pred=knn.predict(x_test)
+    knn.fit(X_train,y_train)
+    y_pred=knn.predict(X_test)
 
     skor_akurasi = round(100 * accuracy_score(y_test,y_pred))
 
