@@ -79,7 +79,7 @@ with preporcessing:
     Category = pd.get_dummies(data_cat)
     Category
 
-     dataOlah = pd.concat([Sex, Category], axis=1)
+    dataOlah = pd.concat([Sex, Category], axis=1)
     dataHasil = pd.concat([df,dataOlah], axis = 1)
 
     X = dataHasil.drop(columns=["Sex", "Category"])
