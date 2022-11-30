@@ -79,14 +79,15 @@ with preporcessing:
     Category = pd.get_dummies(data_cat)
     Category
 
-    dataOlah = pd.concat([Sex, Category], axis=1)
+     dataOlah = pd.concat([Sex, Category], axis=1)
     dataHasil = pd.concat([df,dataOlah], axis = 1)
 
-      X=df[["Age", "Sex", "ALB", "ALP", "ALT", "AST", "BIL", "CHE", "CHOL", "CREA", "GGT", "PROT"]]
-      y=df["Category"].values
+    X = dataHasil.drop(columns=["Sex", "Category"])
+    y = dataHasil.Category
+    "### Normalize data hasil"
+    X
 
-    
-    
+
     scaler=MinMaxScaler()
     scaler.fit(x)
     x=scaler.transform(x)
