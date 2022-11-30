@@ -127,21 +127,7 @@ with modeling:
     des = st.checkbox('Decision Tree')
     mod = st.button("Modeling")
     
-    # NB
-    GaussianNB(priors=None)
-
-    # Fitting Naive Bayes Classification to the Training set with linear kernel
-    klasifikasi = GaussianNB()
-    klasifikasi = klasifikasi.fit(x_train, y_train)
-
-    # Predicting the Test set results
-    y_pred = klasifikasi.predict(X_test)
     
-    y_compare = np.vstack((y_test,y_pred)).T
-    klasifikasi.predict_proba(x_test)
-    akurasi = round(100 * accuracy_score(y_test, y_pred))
-    # akurasi = 10
-
     
     # KNN 
     K=10
