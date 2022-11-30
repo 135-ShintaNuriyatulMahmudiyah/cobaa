@@ -89,8 +89,8 @@ with preporcessing:
 
 
     scaler=MinMaxScaler()
-    scaler.fit(x)
-    x=scaler.transform(x)
+    scaler.fit(X)
+    x=scaler.transform(X)
     "### Normalize data transformasi"
     x
     
