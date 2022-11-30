@@ -82,10 +82,9 @@ with preporcessing:
     dataOlah = pd.concat([Sex, Category], axis=1)
     dataHasil = pd.concat([df,dataOlah], axis = 1)
 
-    x = dataHasil.drop(columns=["Sex", "Category"])
-    y = dataHasil.Category
-    "### Normalize data hasil"
-    X
+      X=df[["Age", "Sex", "ALB", "ALP", "ALT", "AST", "BIL", "CHE", "CHOL", "CREA", "GGT", "PROT"]]
+      y=df["Category"].values
+
     
     
     scaler=MinMaxScaler()
