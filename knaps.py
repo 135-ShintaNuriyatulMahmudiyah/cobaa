@@ -131,8 +131,8 @@ with modeling:
     GaussianNB(priors=None)
 
     # Fitting Naive Bayes Classification to the Training set with linear kernel
-    GaussianNB()
-    nvklasifikasi.fit(x_train, y_train)
+    nvklasifikasi = GaussianNB()
+    nvklasifikasi = nvklasifikasi.fit(x_train, y_train)
 
     # Predicting the Test set results
     y_pred = nvklasifikasi.predict(x_test)
