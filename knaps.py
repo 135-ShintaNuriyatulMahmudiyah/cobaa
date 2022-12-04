@@ -76,12 +76,12 @@ with preprocessing:
     st.subheader(""Normalisasi Data"")
     st.write(""Rumus Normalisasi Data :"")
     st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
-    st.markdown("""
+    st.markdown("
     Dimana :
     - X = data yang akan dinormalisasi atau data asli
     - min = nilai minimum semua data asli
     - max = nilai maksimum semua data asli
-    """)
+    ")
     df = df.drop(columns=['fruit_label','fruit_subtype'])
     #Mendefinisikan Varible X dan Y
     X = df[["mass","width","height","color_score"]]
