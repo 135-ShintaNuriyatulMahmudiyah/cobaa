@@ -86,7 +86,7 @@ with preprocessing:
     - min = nilai minimum semua data asli
     - max = nilai maksimum semua data asli
     """)
-    df = df.drop(columns=['fruit_name','fruit_subtype'])
+    df = df.drop(columns=['fruit_label','fruit_subtype'])
     #Mendefinisikan Varible X dan Y
     X = df[["mass","width","height","color_score"]]
     y = df["fruit_name"].values
