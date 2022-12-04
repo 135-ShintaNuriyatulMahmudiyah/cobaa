@@ -85,7 +85,7 @@ with preprocessing:
     """)
     df = df.drop(columns=['fruit_name','fruit_subtype'])
     #Mendefinisikan Varible X dan Y
-    X = df.drop(columns=['fruit_name','fruit_subtype'])
+    X = df[["mass","width","height","color_score"]]
     y = df["fruit_label"].values
     df
     X
