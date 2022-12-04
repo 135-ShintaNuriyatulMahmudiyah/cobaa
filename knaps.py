@@ -52,13 +52,13 @@ with data_set_description:
     st.write("""Menggunakan Kolom (input) :
 
     
-    st.write("""Memprediksi kondisi cuaca (output) :
+    st.write("Memprediksi kondisi cuaca (output) :
 
     1. Apple 
     2. Mandarin 
     3. Orange 
     4. Lemon 
-    """)
+    ")
     st.write("###### Aplikasi ini untuk : Fruit  Prediction (Prediksi buah) ")
     st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/135-ShintaNuriyatulMahmudiyah/Data ")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
