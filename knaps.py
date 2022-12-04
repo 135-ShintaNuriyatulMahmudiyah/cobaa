@@ -75,102 +75,171 @@ with upload_data:
 
 with preprocessing:
     st.subheader("""Normalisasi Data""")
-    data['fruit_name'].value_counts()
-    X=data.drop(columns=['fruit_name','fruit_subtype'],axis=1)
-
+    st.write("""Rumus Normalisasi Data :""")
+    st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
+    st.markdown("""
+    Dimana :
+    - X = data yang akan dinormalisasi atau data asli
+    - min = nilai minimum semua data asli
+    - max = nilai maksimum semua data asli
+    """)
+    df = df.drop(columns=['fruit_name','fruit_subtype'])
+    #Mendefinisikan Varible X dan Y
+    X = df.drop(columns=[''fruit_name','fruit_subtype''])
+    y = df["fruit_label"].values
+    df
     X
+    df_min = X.min()
+    df_max = X.max()
     
-    x = data[["mass","width","height","color_score"]]
-    y = data["fruit_label"].values
-    
-    st.write("""# Normalisasi MinMaxScaler""")
-    "### Mengubah skala nilai terkecil dan terbesar dari dataset ke skala tertentu.pada dataset ini skala terkecil = 0, skala terbesar= 1"
-    
-    scaler = preprocessing.MinMaxScaler(feature_range=(0,1))
-    x_scaled= scaler.fit_transform(x)
-    x_scaled
+    #NORMALISASI NILAI X
+    scaler = MinMaxScaler()
+    #scaler.fit(features)
+    #scaler.transform(features)
+    scaled = scaler.fit_transform(X)
+    features_names = X.columns.copy()
+    #features_names.remove('label')
+    scaled_features = pd.DataFrame(scaled, columns=features_names)
+
+    st.subheader('Hasil Normalisasi Data')
+    st.write(scaled_features)
+
+    st.subheader('Target Label')
+    dumies = pd.get_dummies(df.fruit_label).columns.values.tolist()
+    dumies = np.array(dumies)
+
+    labels = pd.DataFrame({
+        '1' : [dumies[0]],
+        '2' : [dumies[1]],
+        '3' : [dumies[2]],
+        '4' : [dumies[3]],
+        
+    })
+
+    st.write(labels)
+
+    # st.subheader("""Normalisasi Data""")
+    # st.write("""Rumus Normalisasi Data :""")
+    # st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
+    # st.markdown("""
+    # Dimana :
+    # - X = data yang akan dinormalisasi atau data asli
+    # - min = nilai minimum semua data asli
+    # - max = nilai maksimum semua data asli
+    # """)
+    # df.fruit_label.value_counts()
+    # df = df.drop(columns=['fruit_name','fruit_subtype'])
+    # #Mendefinisikan Varible X dan Y
+    # X = df.drop(columns=['fruit_name','fruit_subtype'])
+    # y = df['fruit_label'].values
+    # df_min = X.min()
+    # df_max = X.max()
+
+    # #NORMALISASI NILAI X
+    # scaler = MinMaxScaler()
+    # #scaler.fit(features)
+    # #scaler.transform(features)
+    # scaled = scaler.fit_transform(X)
+    # features_names = X.columns.copy()
+    # #features_names.remove('label')
+    # scaled_features = pd.DataFrame(scaled, columns=features_names)
+
+    # #Save model normalisasi
+    # from sklearn.utils.validation import joblib
+    # norm = "normalisasi.save"
+    # joblib.dump(scaled_features, norm) 
+
+
+    # st.subheader('Hasil Normalisasi Data')
+    # st.write(scaled_features)
 
 with modeling:
-    x_train, x_test,y_train,y_test= train_test_split(x,y,random_state=0)    
-    x_train_scaled, x_test_scaled,y_train_scaled,y_test_scaled= train_test_split(x_scaled,y,random_state=0)
-    from sklearn.preprocessing import StandardScaler
-    sc = StandardScaler()
-    x_train = sc.fit_transform(x_train)
-    x_test = sc.transform(x_test)
-    # from sklearn.feature_extraction.text import CountVectorizer
-    # cv = CountVectorizer()
-    # x_train = cv.fit_transform(x_train)
-    # x_test = cv.fit_transform(x_test)
-    st.write("""# Modeling """)
-    st.subheader("Berikut ini adalah pilihan untuk Modeling")
-    st.write("Pilih Model yang Anda inginkan untuk Cek Akurasi")
-    naive = st.checkbox('Naive Bayes')
-    kn = st.checkbox('K-Nearest Neighbor')
-    des = st.checkbox('Decision Tree')
-    mod = st.button("Modeling")
+    training, test = train_test_split(scaled_features,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
+    training_label, test_label = train_test_split(y, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing
+    with st.form("modeling"):
+        st.subheader('Modeling')
+        st.write("Pilihlah model yang akan dilakukan pengecekkan akurasi:")
+        naive = st.checkbox('Gaussian Naive Bayes')
+        k_nn = st.checkbox('K-Nearest Neighboor')
+        destree = st.checkbox('Decission Tree')
+        submitted = st.form_submit_button("Submit")
+
+        # NB
+        GaussianNB(priors=None)
+
+        # Fitting Naive Bayes Classification to the Training set with linear kernel
+        gaussian = GaussianNB()
+        gaussian = gaussian.fit(training, training_label)
+
+        # Predicting the Test set results
+        y_pred = gaussian.predict(test)
     
-    # NB
-    GaussianNB(priors=None)
+        y_compare = np.vstack((test_label,y_pred)).T
+        gaussian.predict_proba(test)
+        gaussian_akurasi = round(100 * accuracy_score(test_label, y_pred))
+        # akurasi = 10
 
-    # Fitting Naive Bayes Classification to the Training set with linear kernel
-    nvklasifikasi = GaussianNB()
-    nvklasifikasi = nvklasifikasi.fit(x_train, y_train)
+        #Gaussian Naive Bayes
+        # gaussian = GaussianNB()
+        # gaussian = gaussian.fit(training, training_label)
 
-    # Predicting the Test set results
-    y_pred = nvklasifikasi.predict(x_test)
-    
-    y_compare = np.vstack((y_test,y_pred)).T
-    nvklasifikasi.predict_proba(x_test)
-    akurasi = round(100 * accuracy_score(y_test, y_pred))
-    # akurasi = 10
+        # probas = gaussian.predict_proba(test)
+        # probas = probas[:,1]
+        # probas = probas.round()
 
-    # KNN 
-    K=10
-    knn=KNeighborsClassifier(n_neighbors=K)
-    knn.fit(x_train,y_train)
-    y_pred=knn.predict(x_test)
+        # gaussian_akurasi = round(100 * accuracy_score(test_label,probas))
 
-    skor_akurasi = round(100 * accuracy_score(y_test,y_pred))
+        #KNN
+        K=10
+        knn=KNeighborsClassifier(n_neighbors=K)
+        knn.fit(training,training_label)
+        knn_predict=knn.predict(test)
 
-    # DT
+        knn_akurasi = round(100 * accuracy_score(test_label,knn_predict))
 
-    dt = DecisionTreeClassifier()
-    dt.fit(x_train, y_train)
-    # prediction
-    dt.score(x_test, y_test)
-    y_pred = dt.predict(x_test)
-    #Accuracy
-    akurasiii = round(100 * accuracy_score(y_test,y_pred))
+        #Decission Tree
+        dt = DecisionTreeClassifier()
+        dt.fit(training, training_label)
+        # prediction
+        dt_pred = dt.predict(test)
+        #Accuracy
+        dt_akurasi = round(100 * accuracy_score(test_label,dt_pred))
 
         if submitted :
             if naive :
-                st.write('Model Naive Bayes accuracy score: {0:0.2f}'. format(akurasi))
+                st.write('Model Naive Bayes accuracy score: {0:0.2f}'. format(gaussian_akurasi))
             if k_nn :
-                st.write("Model KNN accuracy score : {0:0.2f}" . format(skor_akurasi))
+                st.write("Model KNN accuracy score : {0:0.2f}" . format(knn_akurasi))
             if destree :
-                st.write("Model Decision Tree accuracy score : {0:0.2f}" . format(akurasiii))
+                st.write("Model Decision Tree accuracy score : {0:0.2f}" . format(dt_akurasi))
         
         grafik = st.form_submit_button("Grafik akurasi semua model")
-        if eval :
-        # st.snow()
-        source = pd.DataFrame({
-            'Nilai Akurasi' : [akurasi,skor_akurasi,akurasiii],
-            'Nama Model' : ['Naive Bayes','KNN','Decision Tree']
-        })
+        if grafik:
+            data = pd.DataFrame({
+                'Akurasi' : [gaussian_akurasi, knn_akurasi, dt_akurasi],
+                'Model' : ['Gaussian Naive Bayes', 'K-NN', 'Decission Tree'],
+            })
 
-        bar_chart = alt.Chart(source).mark_bar().encode(
-            y = 'Nilai Akurasi',
-            x = 'Nama Model'
-        )
-
-        st.altair_chart(bar_chart,use_container_width=True)
+            chart = (
+                alt.Chart(data)
+                .mark_bar()
+                .encode(
+                    alt.X("Akurasi"),
+                    alt.Y("Model"),
+                    alt.Color("Akurasi"),
+                    alt.Tooltip(["Akurasi", "Model"]),
+                )
+                .interactive()
+            )
+            st.altair_chart(chart,use_container_width=True)
   
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Temp_Max = st.number_input('Masukkan tempmax (suhu maks) : ')
-        Temp_Min = st.number_input('Masukkan tempmin (suhu min) : ')
-        Wind = st.number_input('Masukkan wind (angin) : ')
+        mass = st.number_input('Masukkan preciptation (curah hujan) : ')
+        width = st.number_input('Masukkan tempmax (suhu maks) : ')
+        height = st.number_input('Masukkan tempmin (suhu min) : ')
+        color_score = st.number_input('Masukkan wind (angin) : ')
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
 
@@ -178,7 +247,7 @@ with implementation:
         if prediksi:
             inputs = np.array([
                 mass,
-                widht,
+                width,
                 height,
                 color_score
             ])
