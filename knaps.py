@@ -16,7 +16,7 @@ from sklearn.tree import DecisionTreeClassifier
 
 st.title("Aplication Fruit With Color")
 
-st.write("*************************************************************************************")
+st.write("================================================================================")
 
 st.write("Name :Shinta Nuriyatul Mahmudiyah")
 st.write("Nim  :200411100135")
@@ -30,11 +30,11 @@ with data_set_description:
     st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/mjamilmoughal/fruits-with-colors-dataset")
     st.write("""###### Penjelasan setiap kolom : """)
     st.write("""1. Fruit Name (Nama Buah) :
-    ini akan menjadi output
+    ini akan menjadi outputnya yaitu nama buah. Disini 
    
     """)
     st.write("""2. Mass (Berat Buah) :
-
+    Berat buah
     
     """)
     st.write("""3. Width (Lebar Buah):
@@ -49,10 +49,8 @@ with data_set_description:
 
     
     """)
-    st.write("""Menggunakan Kolom (input) :""")
-
     
-    st.write("""Memprediksi kondisi cuaca (output) :
+    st.write("""Memprediksi Nama Buah (output) :
 
     1. Apple 
     2. Mandarin 
@@ -64,9 +62,9 @@ with data_set_description:
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
 with upload_data:
-    # uploaded_files = st.file_uploader("Upload file CSV", accept_multiple_files=True)
+    # uploaded_files = st.file_uploader("Upload file TXT", accept_multiple_files=True)
     # for uploaded_file in uploaded_files:
-    #     df = pd.read_csv(uploaded_file)
+    #     df = pd.read_table(uploaded_file)
     #     st.write("Nama File Anda = ", uploaded_file.name)
     #     st.dataframe(df)
     df = pd.read_table('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/fruit_data_with_colors.txt')
@@ -235,10 +233,10 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        mass = st.number_input('Masukkan preciptation (curah hujan) : ')
-        width = st.number_input('Masukkan tempmax (suhu maks) : ')
-        height = st.number_input('Masukkan tempmin (suhu min) : ')
-        color_score = st.number_input('Masukkan wind (angin) : ')
+        mass = st.number_input('Masukkan berat buah (mass) : ')
+        width = st.number_input('Masukkan lebar buah (width) : ')
+        height = st.number_input('Masukkan tinggi buah (height) : ')
+        color_score = st.number_input('Masukkan skor warna (color_score) : ')
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
 
