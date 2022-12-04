@@ -14,17 +14,20 @@ from sklearn.tree import DecisionTreeClassifier
 # warnings.filterwarnings("ignore")
 
 
-st.title("PENAMBANGAN DATA")
-st.write("##### Nama  : Hambali Fitrianto ")
-st.write("##### Nim   : 200411100074 ")
-st.write("##### Kelas : Penambangan Data C ")
+st.title("Aplication Fruit With Color")
+
+st.write("*************************************************************************************")
+
+st.write("Name :Shinta Nuriyatul Mahmudiyah")
+st.write("Nim  :200411100135")
+st.write("Grade: Penambangan Data A")
 
 data_set_description, upload_data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Upload Data", "Preprocessing", "Modeling", "Implementation"])
 
 with data_set_description:
     st.write("""# Data Set Description """)
-    st.write("###### Data Set Ini Adalah : Weather Prediction (Prediksi Cuaca) ")
-    st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/ananthr1/weather-prediction")
+    st.write("###### Data Set Ini Adalah : Fruit with Color ")
+    st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/mjamilmoughal/fruits-with-colors-dataset")
     st.write("""###### Penjelasan setiap kolom : """)
     st.write("""1. preciptation (curah hujan) :
 
@@ -86,7 +89,7 @@ with preprocessing:
     df = df.drop(columns=['fruit_name','fruit_subtype'])
     #Mendefinisikan Varible X dan Y
     X = df[["mass","width","height","color_score"]]
-    y = df["fruit_label"].values
+    y = df["fruit_name"].values
     df
     X
     df_min = X.min()
@@ -105,7 +108,7 @@ with preprocessing:
     st.write(scaled_features)
 
     st.subheader('Target Label')
-    dumies = pd.get_dummies(df.fruit_label).columns.values.tolist()
+    dumies = pd.get_dummies(df.fruit_name).columns.values.tolist()
     dumies = np.array(dumies)
 
     labels = pd.DataFrame({
@@ -128,10 +131,10 @@ with preprocessing:
     # - max = nilai maksimum semua data asli
     # """)
     # df.fruit_label.value_counts()
-    # df = df.drop(columns=['fruit_name','fruit_subtype'])
+    # df = df.drop(columns=['fruit_label','fruit_subtype'])
     # #Mendefinisikan Varible X dan Y
-    # X = df.drop(columns=['fruit_name','fruit_subtype'])
-    # y = df['fruit_label'].values
+    # X = df.drop(columns=['fruit_label','fruit_subtype'])
+    # y = df['fruit_name'].values
     # df_min = X.min()
     # df_max = X.max()
 
