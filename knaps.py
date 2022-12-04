@@ -1,425 +1,273 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from sklearn import preprocessing
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-from numpy import array
-from sklearn import tree
-from sklearn.naive_bayes import GaussianNB
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
-from sklearn.tree import DecisionTreeClassifier
-from collections import OrderedDict
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import BaggingClassifier
-from sklearn.datasets import make_classification
-from sklearn.svm import SVC
+from PIL import Image
 import altair as alt
-from sklearn.utils.validation import joblib
+from sklearn.preprocessing import MinMaxScaler
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+# import warnings
+# warnings.filterwarnings("ignore")
 
 
+st.title("PENAMBANGAN DATA")
+st.write("##### Nama  : Hambali Fitrianto ")
+st.write("##### Nim   : 200411100074 ")
+st.write("##### Kelas : Penambangan Data C ")
 
-st.write("PROJECT DATA MINING")
-st.title("Hepatitis C Prediction System")
-st.write("Arifatul Maghfiroh - 200411100201")
-st.write("Penambangan Data C")
-upload_data, preporcessing, modeling, implementation = st.tabs(["Upload Data", "Prepocessing", "Modeling", "Implementation"])
+data_set_description, upload_data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Upload Data", "Preprocessing", "Modeling", "Implementation"])
 
+with data_set_description:
+    st.write("""# Data Set Description """)
+    st.write("###### Data Set Ini Adalah : Weather Prediction (Prediksi Cuaca) ")
+    st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/ananthr1/weather-prediction")
+    st.write("""###### Penjelasan setiap kolom : """)
+    st.write("""1. preciptation (curah hujan) :
+
+    Curah hujan : jumlah hujan yang turun pada suatu daerah dalam waktu tertentu. untuk menentukan besarnya curah hujan, membutuhkan suatu alat ukur. Alat pengukur curah hujan disebut dengan fluviograf dan satuan curah hujan yang biasanya digunakan adalah milimeter (mm).
+    """)
+    st.write("""2. tempmax (suhu maks) :
+
+    Suhu Maksimum : Suhu yang terbaca dari termometer maksimum di ada di dataset
+    """)
+    st.write("""3. tempmin (suhu min) :
+
+    Suhu Minimum : Suhu yang terbaca dari termometer minimum di ada di dataset
+    """)
+    st.write("""4. wind (angin) :
+
+    Kecepatan angin disebabkan oleh pergerakan angin dari tekanan tinggi ke tekanan rendah, biasanya karena perubahan suhu
+    """)
+    st.write("""5. weather (cuaca) :
+
+    Output (keluaran)
+    """)
+    st.write("""Menggunakan Kolom (input) :
+
+    precipitation
+    tempmax * tempmin
+    wind
+    """)
+    st.write("""Memprediksi kondisi cuaca (output) :
+
+    1. drizzle (gerimis)
+    2. rain (hujan)
+    3. sun (matahari)
+    4. snow (salju)
+    5. fog (kabut)
+    """)
+    st.write("###### Aplikasi ini untuk : Weather Prediction (Prediksi Cuaca) ")
+    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/HambaliFitrianto/Aplikasi-Web-Data-Mining-Weather-Prediction ")
+    st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6282138614807 ")
 
 with upload_data:
-    st.write("""# Upload File""")
-    st.write("Dataset yang digunakan adalah healthcare-dataset-stroke-data dataset yang diambil dari https://www.kaggle.com/datasets/fedesoriano/hepatitis-c-dataset")
-    st.write("Total datanya adalah 615 dengan data training 80% (492) dan data testing 20% (123)")
-    df = pd.read_csv("https://raw.githubusercontent.com/Arifaaa/dataset/main/HepatitisCdata.csv")
+    # uploaded_files = st.file_uploader("Upload file CSV", accept_multiple_files=True)
+    # for uploaded_file in uploaded_files:
+    #     df = pd.read_csv(uploaded_file)
+    #     st.write("Nama File Anda = ", uploaded_file.name)
+    #     st.dataframe(df)
+    df = pd.read_csv('https://raw.githubusercontent.com/HambaliFitrianto/datamining/main/seattle-weather.csv')
     st.dataframe(df)
 
-
-with preporcessing:
-    st.write("""# Preprocessing""")
-    df[["Category", "Age", "Sex", "ALB", "ALP", "ALT", "AST", "BIL", "CHE", "CHOL", "CREA", "GGT", "PROT"]].agg(['min','max'])
-
-    df.Category.value_counts()
-    df = df.drop(columns=["Unnamed: 0"])
-
-    X = df.drop(columns="Category")
-    y = df.Category
-    "### Membuang fitur yang tidak diperlukan"
+with preprocessing:
+    st.subheader("""Normalisasi Data""")
+    st.write("""Rumus Normalisasi Data :""")
+    st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
+    st.markdown("""
+    Dimana :
+    - X = data yang akan dinormalisasi atau data asli
+    - min = nilai minimum semua data asli
+    - max = nilai maksimum semua data asli
+    """)
+    df = df.drop(columns=["date"])
+    #Mendefinisikan Varible X dan Y
+    X = df.drop(columns=['weather'])
+    y = df['weather'].values
     df
-
-    le = preprocessing.LabelEncoder()
-    le.fit(y)
-    y = le.transform(y)
-
-    "### Transformasi Label"
-    y
-
-    le.inverse_transform(y)
-
-    labels = pd.get_dummies(df.Category).columns.values.tolist()
-
-    "### Label"
-    labels
-
-    st.markdown("# Normalize")
-
-    "### Normalize data"
-
-    dataubah=df.drop(columns=['Sex','Category'])
-    dataubah
-
-    "### Normalize data gender"
-    data_sex=df[['Sex']]
-    Sex = pd.get_dummies(data_sex)
-    Sex
-
-    "### Normalize data Category"
-    data_cat=df[['Category']]
-    Category = pd.get_dummies(data_cat)
-    Category
-
-    dataOlah = pd.concat([Sex, Category], axis=1)
-    dataHasil = pd.concat([df,dataOlah], axis = 1)
-
-    X = dataHasil.drop(columns=["Sex", "Category"])
-    y = dataHasil.Category
-    "### Normalize data hasil"
     X
-
-
-    scaler=MinMaxScaler()
-    scaler.fit(X)
-    x=scaler.transform(X)
-    "### Normalize data transformasi"
-    x
+    df_min = X.min()
+    df_max = X.max()
     
-    labels = pd.get_dummies(dataHasil.Category).columns.values.tolist()
+    #NORMALISASI NILAI X
+    scaler = MinMaxScaler()
+    #scaler.fit(features)
+    #scaler.transform(features)
+    scaled = scaler.fit_transform(X)
+    features_names = X.columns.copy()
+    #features_names.remove('label')
+    scaled_features = pd.DataFrame(scaled, columns=features_names)
 
-    # """## Normalisasi MinMax Scaler"""
+    st.subheader('Hasil Normalisasi Data')
+    st.write(scaled_features)
 
-    
-    scaler=MinMaxScaler()
-    scaler.fit(x)
-    X=scaler.transform(x)
-    X
+    st.subheader('Target Label')
+    dumies = pd.get_dummies(df.weather).columns.values.tolist()
+    dumies = np.array(dumies)
 
-    X.shape, y.shape
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
-    ss=StandardScaler()
-    Xtest= ss.fit_transform(X_test)
-    X_train = ss.fit_transform(X_train)
+    labels = pd.DataFrame({
+        '1' : [dumies[0]],
+        '2' : [dumies[1]],
+        '3' : [dumies[2]],
+        '4' : [dumies[3]],
+        '5' : [dumies[4]]
+    })
+
+    st.write(labels)
+
+    # st.subheader("""Normalisasi Data""")
+    # st.write("""Rumus Normalisasi Data :""")
+    # st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
+    # st.markdown("""
+    # Dimana :
+    # - X = data yang akan dinormalisasi atau data asli
+    # - min = nilai minimum semua data asli
+    # - max = nilai maksimum semua data asli
+    # """)
+    # df.weather.value_counts()
+    # df = df.drop(columns=["date"])
+    # #Mendefinisikan Varible X dan Y
+    # X = df.drop(columns=['weather'])
+    # y = df['weather'].values
+    # df_min = X.min()
+    # df_max = X.max()
+
+    # #NORMALISASI NILAI X
+    # scaler = MinMaxScaler()
+    # #scaler.fit(features)
+    # #scaler.transform(features)
+    # scaled = scaler.fit_transform(X)
+    # features_names = X.columns.copy()
+    # #features_names.remove('label')
+    # scaled_features = pd.DataFrame(scaled, columns=features_names)
+
+    # #Save model normalisasi
+    # from sklearn.utils.validation import joblib
+    # norm = "normalisasi.save"
+    # joblib.dump(scaled_features, norm) 
 
 
+    # st.subheader('Hasil Normalisasi Data')
+    # st.write(scaled_features)
 
 with modeling:
-    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=4)
-    from sklearn.preprocessing import StandardScaler
-    sc = StandardScaler()
-    X_train= sc.fit_transform(X_train)
-    X_test = sc.transform(X_test)
+    training, test = train_test_split(scaled_features,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
+    training_label, test_label = train_test_split(y, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing
+    with st.form("modeling"):
+        st.subheader('Modeling')
+        st.write("Pilihlah model yang akan dilakukan pengecekkan akurasi:")
+        naive = st.checkbox('Gaussian Naive Bayes')
+        k_nn = st.checkbox('K-Nearest Neighboor')
+        destree = st.checkbox('Decission Tree')
+        submitted = st.form_submit_button("Submit")
+
+        # NB
+        GaussianNB(priors=None)
+
+        # Fitting Naive Bayes Classification to the Training set with linear kernel
+        gaussian = GaussianNB()
+        gaussian = gaussian.fit(training, training_label)
+
+        # Predicting the Test set results
+        y_pred = gaussian.predict(test)
     
-    st.write("""# Modeling """)
-    st.subheader("Berikut ini adalah pilihan untuk Modeling")
-    st.write("Pilih Model yang Anda inginkan untuk Cek Akurasi")
-    naive = st.checkbox('Naive Bayes')
-    kn = st.checkbox('K-Nearest Neighbor')
-    des = st.checkbox('Decision Tree')
-    mod = st.button("Modeling")
-    
-    
-    
-    # KNN 
-    K=10
-    knn=KNeighborsClassifier(n_neighbors=K)
-    knn.fit(X_train,y_train)
-    y_pred=knn.predict(X_test)
+        y_compare = np.vstack((test_label,y_pred)).T
+        gaussian.predict_proba(test)
+        gaussian_akurasi = round(100 * accuracy_score(test_label, y_pred))
+        # akurasi = 10
 
-    skor_akurasi = round(100 * accuracy_score(y_test,y_pred))
+        #Gaussian Naive Bayes
+        # gaussian = GaussianNB()
+        # gaussian = gaussian.fit(training, training_label)
 
-    # DT
+        # probas = gaussian.predict_proba(test)
+        # probas = probas[:,1]
+        # probas = probas.round()
 
-    dt = DecisionTreeClassifier()
-    dt.fit(x_train, y_train)
-    # prediction
-    dt.score(x_test, y_test)
-    y_pred = dt.predict(x_test)
-    #Accuracy
-    akurasiii = round(100 * accuracy_score(y_test,y_pred))
+        # gaussian_akurasi = round(100 * accuracy_score(test_label,probas))
 
-    if naive :
-        if mod :
-            st.write('Model Naive Bayes accuracy score: {0:0.2f}'. format(akurasi))
-    if kn :
-        if mod:
-            st.write("Model KNN accuracy score : {0:0.2f}" . format(skor_akurasi))
-    if des :
-        if mod :
-            st.write("Model Decision Tree accuracy score : {0:0.2f}" . format(akurasiii))
-    
-    eval = st.button("Evaluasi semua model")
-    if eval :
-        # st.snow()
-        source = pd.DataFrame({
-            'Nilai Akurasi' : [akurasi,skor_akurasi,akurasiii],
-            'Nama Model' : ['Naive Bayes','KNN','Decision Tree']
-        })
+        #KNN
+        K=10
+        knn=KNeighborsClassifier(n_neighbors=K)
+        knn.fit(training,training_label)
+        knn_predict=knn.predict(test)
 
-        bar_chart = alt.Chart(source).mark_bar().encode(
-            y = 'Nilai Akurasi',
-            x = 'Nama Model'
-        )
+        knn_akurasi = round(100 * accuracy_score(test_label,knn_predict))
 
-        st.altair_chart(bar_chart,use_container_width=True)
+        #Decission Tree
+        dt = DecisionTreeClassifier()
+        dt.fit(training, training_label)
+        # prediction
+        dt_pred = dt.predict(test)
+        #Accuracy
+        dt_akurasi = round(100 * accuracy_score(test_label,dt_pred))
 
-# with modeling:
-
-#     st.markdown("# Model")
-#     # membagi data menjadi data testing(20%) dan training(80%)
-    # X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=4)
-
-#     # X_train.shape, X_test.shape, y_train.shape, y_test.shape
-
-#     nb = st.checkbox("Metode Naive Bayes")
-#     knn = st.checkbox("Metode KNN")
-#     dt = st.checkbox("Metode Decision Tree")
-#     sb = st.button("submit")
-
-#     #Naive Bayes
-#     # Feature Scaling to bring the variable in a single scale
-#     sc = StandardScaler()
-#     X_train = sc.fit_transform(X_train)
-#     X_test = sc.transform(X_test)
-
-#     GaussianNB(priors=None)
-#     # Fitting Naive Bayes Classification to the Training set with linear kernel
-#     nvklasifikasi = GaussianNB()
-#     nvklasifikasi = nvklasifikasi.fit(X_train, y_train)
-
-#     # Predicting the Test set results
-#     y_pred = nvklasifikasi.predict(X_test)
+        if submitted :
+            if naive :
+                st.write('Model Naive Bayes accuracy score: {0:0.2f}'. format(gaussian_akurasi))
+            if k_nn :
+                st.write("Model KNN accuracy score : {0:0.2f}" . format(knn_akurasi))
+            if destree :
+                st.write("Model Decision Tree accuracy score : {0:0.2f}" . format(dt_akurasi))
         
-#     y_compare = np.vstack((y_test,y_pred)).T
-#     nvklasifikasi.predict_proba(X_test)
+        grafik = st.form_submit_button("Grafik akurasi semua model")
+        if grafik:
+            data = pd.DataFrame({
+                'Akurasi' : [gaussian_akurasi, knn_akurasi, dt_akurasi],
+                'Model' : ['Gaussian Naive Bayes', 'K-NN', 'Decission Tree'],
+            })
 
-#     akurasi = round(100 * accuracy_score(y_test, y_pred))
-
-#     #Decision tree
-#     dt = DecisionTreeClassifier()
-#     dt.fit(X_train, y_train)
-
-#     # prediction
-#     dt.score(X_test, y_test)
-#     y_pred = dt.predict(X_test)
-#     #Accuracy
-#     akur = round(100 * accuracy_score(y_test,y_pred))
-
-#     K=10
-#     knn=KNeighborsClassifier(n_neighbors=K)
-#     knn.fit(X_train,y_train)
-#     y_pred=knn.predict(X_test)
-
-#     skor_akurasi = round(100 * accuracy_score(y_test,y_pred))
-    
-
-#     if nb:
-#         if sb:
-
-#             """## Naive Bayes"""
-            
-#             st.write('Model Naive Bayes accuracy score: {0:0.2f}'. format(akurasi))
-
-#     if knn:
-#         if sb:
-#             """## KNN"""
-
-#             st.write("Model KNN accuracy score : {0:0.2f}" . format(skor_akurasi))
-    
-#     if dt:
-#         if sb:
-#             """## Decision Tree"""
-#             st.write('Model Decission Tree Accuracy Score: {0:0.2f}'.format(akur))
-
+            chart = (
+                alt.Chart(data)
+                .mark_bar()
+                .encode(
+                    alt.X("Akurasi"),
+                    alt.Y("Model"),
+                    alt.Color("Akurasi"),
+                    alt.Tooltip(["Akurasi", "Model"]),
+                )
+                .interactive()
+            )
+            st.altair_chart(chart,use_container_width=True)
+  
 with implementation:
-    st.write("# Implementation")
-    Age = st.number_input('Masukkan Umur Pasien')
+    with st.form("my_form"):
+        st.subheader("Implementasi")
+        Precipitation = st.number_input('Masukkan preciptation (curah hujan) : ')
+        Temp_Max = st.number_input('Masukkan tempmax (suhu maks) : ')
+        Temp_Min = st.number_input('Masukkan tempmin (suhu min) : ')
+        Wind = st.number_input('Masukkan wind (angin) : ')
+        model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
+                ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
 
-    # GENDER
-    gender = st.radio("Gender",('Male', 'Female', 'Other'))
-    if gender == "Male":
-        gen_Female = 0
-        gen_Male = 1
-        gen_Other = 0
-    elif gender == "Female" :
-        gen_Female = 1
-        gen_Male = 0
-        gen_Other = 0
-    elif gender == "Other" :
-        gen_Female = 0
-        gen_Male = 0
-        gen_Other = 1
+        prediksi = st.form_submit_button("Submit")
+        if prediksi:
+            inputs = np.array([
+                Precipitation,
+                Temp_Max,
+                Temp_Min,
+                Wind
+            ])
 
-    # HYPERTENSION
-    hypertension = st.radio("Hypertency",('No', 'Yes'))
-    if hypertension == "Yes":
-        hypertension = 1
-    elif hypertension == "No":
-        hypertension = 0
-    
-    # HEART
-    heart_disease = st.radio("heart_disease",('No', 'Yes'))
-    if heart_disease == "Yes":
-        heart_disease = 1
-        # heart_disease_N = 0
-    elif heart_disease == "No":
-        heart_disease = 0
-        # heart_disease_N = 1
+            df_min = X.min()
+            df_max = X.max()
+            input_norm = ((inputs - df_min) / (df_max - df_min))
+            input_norm = np.array(input_norm).reshape(1, -1)
 
-    # MARRIED
-    ever_married = st.radio("ever_married",('No', 'Yes'))
-    if ever_married == "Yes":
-        ever_married_Y = 1
-        ever_married_N = 0
-    elif ever_married == "No":
-        ever_married_Y = 0
-        ever_married_N = 1
+            if model == 'Gaussian Naive Bayes':
+                mod = gaussian
+            if model == 'K-NN':
+                mod = knn 
+            if model == 'Decision Tree':
+                mod = dt
 
-    # WORK
-    work_type = st.radio("work_type",('Govt_job', 'Never_worked','Private', 'Self_employed', 'childern'))
-    if work_type == "Govt_job":
-        work_type_G = 1
-        work_type_Never = 0
-        work_type_P = 0
-        work_type_S = 0
-        work_type_C = 0
-    elif work_type == "Never_worked":
-        work_type_G = 0
-        work_type_Never = 1
-        work_type_P = 0
-        work_type_S = 0
-        work_type_C = 0
-    elif work_type == "Private":
-        work_type_G = 0
-        work_type_Never = 0
-        work_type_P = 1
-        work_type_S = 0
-        work_type_C = 0
-    elif work_type == "Self_employed":
-        work_type_G = 0
-        work_type_Never = 0
-        work_type_P = 0
-        work_type_S = 1
-        work_type_C = 0
-    elif work_type == "childern":
-        work_type_G = 0
-        work_type_Never = 0
-        work_type_P = 0
-        work_type_S = 0
-        work_type_C = 1
-
-    # RESIDENCE
-    residence_type = st.radio("residence_type",('Rural', 'Urban'))
-    if residence_type == "Rural":
-        residence_type_R = 1
-        residence_type_U = 0
-    elif residence_type == "Urban":
-        residence_type_R = 0
-        residence_type_U = 1
-
-    # GLUCOSE
-    avg_glucose_level = st.number_input('Masukkan Angka glukosa')
-    
-    # SMOKE
-    smoking_status = st.radio("smoking_status",('Unknown', 'Formerly smoked', 'never smoked', 'smokes'))
-    if smoking_status == "Unknown":
-        smoking_status_U = 1
-        smoking_status_F = 0
-        smoking_status_N = 0
-        smoking_status_S = 0
-    elif smoking_status == "Formerly smoked":
-        smoking_status_U = 0
-        smoking_status_F = 1
-        smoking_status_N = 0
-        smoking_status_S = 0
-    elif smoking_status == "never smoked":
-        smoking_status_U = 0
-        smoking_status_F = 0
-        smoking_status_N = 1
-        smoking_status_S = 0
-    elif smoking_status == "smokes":
-        smoking_status_U = 0
-        smoking_status_F = 0
-        smoking_status_N = 0
-        smoking_status_S = 1
-        
-    bmi = st.number_input('Masukkan BMI')
-
-    
-    # Sex = st.radio(
-    # "Masukkan Jenis Kelamin Anda",
-    # ('Laki-laki','Perempuan'))
-    # if Sex == "Laki-laki":
-    #     Sex_Female = 0
-    #     Sex_Male = 1
-    # elif Sex == "Perempuan" :
-    #     Sex_Female = 1
-    #     Sex_Male = 0
-
-    # BP = st.radio(
-    # "Masukkan Tekanan Darah Anda",
-    # ('Tinggi','Normal','Rendah'))
-    # if BP == "Tinggi":
-    #     BP_High = 1
-    #     BP_LOW = 0
-    #     BP_NORMAL = 0
-    # elif BP == "Normal" :
-    #     BP_High = 0
-    #     BP_LOW = 0
-    #     BP_NORMAL = 1
-    # elif BP == "Rendah" :
-    #     BP_High = 0
-    #     BP_LOW = 1
-    #     BP_NORMAL = 0
-
-    # Cholesterol = st.radio(
-    # "Masukkan Kadar Kolestrol Anda",
-    # ('Tinggi','Normal'))
-    # if Cholesterol == "Tinggi" :
-    #     Cholestrol_High = 1
-    #     Cholestrol_Normal = 0 
-    # elif Cholesterol == "Normal":
-    #     Cholestrol_High = 0
-    #     Cholestrol_Normal = 1
-        
-    # Na_to_K = st.number_input('Masukkan Rasio Natrium Ke Kalium dalam Darah')
+            input_pred = mod.predict(input_norm)
 
 
+            st.subheader('Hasil Prediksi')
+            st.write('Menggunakan Pemodelan :', model)
 
-    def submit():
-        # input
-        inputs = np.array([[
-            Age,
-            hypertension,
-            heart_disease,
-            avg_glucose_level,
-            gen_Female, gen_Male, gen_Other,
-            ever_married_N, ever_married_Y,
-            work_type_G, work_type_Never, work_type_P, work_type_S, work_type_C,
-            residence_type_R, residence_type_U,
-            smoking_status_U, smoking_status_F, smoking_status_N, smoking_status_S, bmi
-            ]])
-        # st.write(inputs)
-        # baru = pd.DataFrame(inputs)
-        # input = pd.get_dummies(baru)
-        # st.write(input)
-        # inputan = np.array(input)
-        # import label encoder
-        le = joblib.load("le.save")
-        model1 = joblib.load("knn.joblib")
-        y_pred3 = model1.predict(inputs)
-        st.write(f"Berdasarkan data yang Anda masukkan, maka anda dinyatakan : {le.inverse_transform(y_pred3)[0]}")
-
-    all = st.button("Submit")
-    if all :
-        st.balloons()
-        submit()
+            st.write(input_pred)
