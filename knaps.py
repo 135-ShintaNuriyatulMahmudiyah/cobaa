@@ -29,43 +29,39 @@ with data_set_description:
     st.write("###### Data Set Ini Adalah : Fruit with Color ")
     st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/mjamilmoughal/fruits-with-colors-dataset")
     st.write("""###### Penjelasan setiap kolom : """)
-    st.write("""1. preciptation (curah hujan) :
-
-    Curah hujan : jumlah hujan yang turun pada suatu daerah dalam waktu tertentu. untuk menentukan besarnya curah hujan, membutuhkan suatu alat ukur. Alat pengukur curah hujan disebut dengan fluviograf dan satuan curah hujan yang biasanya digunakan adalah milimeter (mm).
+    st.write("""1. Fruit Name (Nama Buah) :
+    ini akan menjadi output
+   
     """)
-    st.write("""2. tempmax (suhu maks) :
+    st.write("""2. Mass (Berat Buah) :
 
-    Suhu Maksimum : Suhu yang terbaca dari termometer maksimum di ada di dataset
+    
     """)
-    st.write("""3. tempmin (suhu min) :
+    st.write("""3. Width (Lebar Buah):
 
-    Suhu Minimum : Suhu yang terbaca dari termometer minimum di ada di dataset
+    
     """)
-    st.write("""4. wind (angin) :
+    st.write("""4. Height (Tinggi Buah):
 
-    Kecepatan angin disebabkan oleh pergerakan angin dari tekanan tinggi ke tekanan rendah, biasanya karena perubahan suhu
+    
     """)
-    st.write("""5. weather (cuaca) :
+    st.write("""5. Color_Score (Skor Warna) :
 
-    Output (keluaran)
+    
     """)
     st.write("""Menggunakan Kolom (input) :
 
-    precipitation
-    tempmax * tempmin
-    wind
-    """)
+    
     st.write("""Memprediksi kondisi cuaca (output) :
 
-    1. drizzle (gerimis)
-    2. rain (hujan)
-    3. sun (matahari)
-    4. snow (salju)
-    5. fog (kabut)
+    1. Apple 
+    2. Mandarin 
+    3. Orange 
+    4. Lemon 
     """)
-    st.write("###### Aplikasi ini untuk : Weather Prediction (Prediksi Cuaca) ")
-    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/HambaliFitrianto/Aplikasi-Web-Data-Mining-Weather-Prediction ")
-    st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6282138614807 ")
+    st.write("###### Aplikasi ini untuk : Fruit  Prediction (Prediksi buah) ")
+    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/135-ShintaNuriyatulMahmudiyah/Data ")
+    st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
 with upload_data:
     # uploaded_files = st.file_uploader("Upload file CSV", accept_multiple_files=True)
