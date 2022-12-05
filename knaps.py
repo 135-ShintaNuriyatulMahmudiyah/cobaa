@@ -33,20 +33,23 @@ with data_set_description:
     ini akan menjadi outputnya yaitu nama buah.Dalam Aplikasi ini akan nama nuah yang akan diprediksi ada 4 yaitu Apple, Orange, Mandarin, dan Lemon.
    
     """)
-    st.write("""2. Mass (Berat Buah) :
-    
+    st.write("""2. Mass (Massa Buah) :
+    setiap buah mempunyai berat dengan satuan gram. setiap buah juga mempunyai massa buah yang berbeda - beda.
     
     """)
     st.write("""3. Width (Lebar Buah):
-
+    setiap buah mempunyai lebar buah yang berbeda - beda.
     
     """)
     st.write("""4. Height (Tinggi Buah):
-
+    setiap buah mempunyai tinggi buah yang berbeda - beda.
     
     """)
     st.write("""5. Color_Score (Skor Warna) :
-
+    setiap buah mempunyai skor warna  yang berbeda - beda.
+    
+    """)
+    st.write("""Dari inputan Massa, Width, Height, dan Color_Score itu akan menghasilkan output nama buah
     
     """)
     
@@ -58,7 +61,7 @@ with data_set_description:
     4. Lemon 
     """)
     st.write("###### Aplikasi ini untuk : Fruit  Prediction (Prediksi buah) ")
-    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/135-ShintaNuriyatulMahmudiyah/Data ")
+    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/135-ShintaNuriyatulMahmudiyah/PenambanganDataWeb ")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
 with upload_data:
