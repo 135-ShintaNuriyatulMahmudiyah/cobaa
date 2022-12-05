@@ -14,8 +14,7 @@ from sklearn.tree import DecisionTreeClassifier
 # warnings.filterwarnings("ignore")
 
 
-st.title("Apliccation Fruit With Color")
-st.subheader('(UAS Penambangan Data')
+st.title("Apliccation Prediction Fruit With Color")
 
 st.write("================================================================================")
 
@@ -31,11 +30,11 @@ with data_set_description:
     st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/mjamilmoughal/fruits-with-colors-dataset")
     st.write("""###### Penjelasan setiap kolom : """)
     st.write("""1. Fruit Name (Nama Buah) :
-    ini akan menjadi outputnya yaitu nama buah. Disini 
+    ini akan menjadi outputnya yaitu nama buah.Dalam Aplikasi ini akan nama nuah yang akan diprediksi ada 4 yaitu Apple, Orange, Mandarin, dan Lemon.
    
     """)
     st.write("""2. Mass (Berat Buah) :
-    Berat buah
+    
     
     """)
     st.write("""3. Width (Lebar Buah):
