@@ -15,6 +15,7 @@ from sklearn.tree import DecisionTreeClassifier
 
 
 st.title("Apliccation Fruit With Color")
+st.subheader('(UAS Penambangan Data')
 
 st.write("================================================================================")
 
