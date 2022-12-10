@@ -153,7 +153,7 @@ if (selected=="Preprocessing"):
     # st.subheader('Hasil Normalisasi Data')
     # st.write(scaled_features)
 
-if (selected=="Modeling")::
+if (selected=="Modeling"):
     training, test = train_test_split(scaled_features,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
     training_label, test_label = train_test_split(y, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing
     with st.form("modeling"):
