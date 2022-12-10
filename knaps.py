@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_option_menu import option_menu
 import pandas as pd
 import numpy as np
 from PIL import Image
@@ -21,10 +22,10 @@ st.write("======================================================================
 st.write("Name :Shinta Nuriyatul Mahmudiyah")
 st.write("Nim  :200411100135")
 st.write("Grade: Penambangan Data A")
+with st.sidebar : 
+    selected =option_menu ("Aplikasi prediksi buah",["Data Set Description", "Upload Data", "Preprocessing", "Modeling", "Implementation"],default_index=0)
 
-data_set_description, upload_data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Upload Data", "Preprocessing", "Modeling", "Implementation"])
-
-with data_set_description:
+if (selected=="Data_Set_Description"):
     st.write("""# Data Set Description """)
     st.write("###### Data Set Ini Adalah : Fruit with Color ")
     st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/mjamilmoughal/fruits-with-colors-dataset")
@@ -64,7 +65,7 @@ with data_set_description:
     st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/135-ShintaNuriyatulMahmudiyah/PenambanganDataWeb ")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
-with upload_data:
+if (selected=="Upload Data"):
     # uploaded_files = st.file_uploader("Upload file TXT", accept_multiple_files=True)
     # for uploaded_file in uploaded_files:
     #     df = pd.read_table(uploaded_file)
@@ -72,8 +73,7 @@ with upload_data:
     #     st.dataframe(df)
     df = pd.read_table('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/fruit_data_with_colors.txt')
     st.dataframe(df)
-
-with preprocessing:
+if (selected=="Preprocessing")::
     st.subheader("""Normalisasi Data""")
     st.write("""Rumus Normalisasi Data :""")
     st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
@@ -153,7 +153,7 @@ with preprocessing:
     # st.subheader('Hasil Normalisasi Data')
     # st.write(scaled_features)
 
-with modeling:
+if (selected=="Modeling")::
     training, test = train_test_split(scaled_features,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
     training_label, test_label = train_test_split(y, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing
     with st.form("modeling"):
@@ -232,8 +232,7 @@ with modeling:
                 .interactive()
             )
             st.altair_chart(chart,use_container_width=True)
-  
-with implementation:
+if (selected=="Implementation"):
     with st.form("my_form"):
         st.subheader("Implementasi")
         mass = st.number_input('Masukkan berat buah (mass) : ')
