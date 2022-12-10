@@ -73,7 +73,7 @@ if (selected=="Upload Data"):
     #     st.dataframe(df)
     df = pd.read_table('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/fruit_data_with_colors.txt')
     st.dataframe(df)
-if (selected=="Preprocessing")::
+if (selected=="Preprocessing"):
     st.subheader("""Normalisasi Data""")
     st.write("""Rumus Normalisasi Data :""")
     st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
