@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_option_menu import option_menu
 import pandas as pd
 import numpy as np
 from PIL import Image
@@ -15,39 +14,55 @@ from sklearn.tree import DecisionTreeClassifier
 # warnings.filterwarnings("ignore")
 
 
-
-st.title("Apliccation Prediction Fruit With Color")
+st.title("Web Apps - Classification Fruit With Color")
 
 st.write("================================================================================")
 
 st.write("Name :Shinta Nuriyatul Mahmudiyah")
 st.write("Nim  :200411100135")
 st.write("Grade: Penambangan Data A")
-with st.sidebar : 
-    selected =option_menu ("Aplikasi prediksi buah",["Data Set Description", "Upload Data", "Preprocessing", "Modeling", "Implementation"],default_index=0)
 
-if (selected=="Data_Set_Description"):
+data_set_description, data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
+
+with data_set_description:
     st.write("""# Data Set Description """)
     st.write("###### Data Set Ini Adalah : Fruit with Color ")
     st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/mjamilmoughal/fruits-with-colors-dataset")
+    st.write("""Dalam dataset ini terdapat 59 data dan 7 kolom yaitu fruit label, fruit name, fruit subtype, mass width, height, dan color score. Untuk
+     dataset ini mempunyai 4 kelas yaitu Apple, Mandarin, Orange, dan Lemon. 
+   
+    """)
     st.write("""###### Penjelasan setiap kolom : """)
-    st.write("""1. Fruit Name (Nama Buah) :
+    st.write("""1. Fruit Label (Label Buah) :
+    Label Buah ini menrupakan pengganti nama buah. Berikur penjelasan:
+    1. Apel
+    2. Mandarin
+    3. Orange
+    4. Lemon
+   
+    """)
+    st.write("""2. Fruit Name (Nama Buah) :
     ini akan menjadi outputnya yaitu nama buah.Dalam Aplikasi ini akan nama nuah yang akan diprediksi ada 4 yaitu Apple, Orange, Mandarin, dan Lemon.
    
     """)
-    st.write("""2. Mass (Massa Buah) :
+    
+    st.write("""3. Fruit Subtype (Tipe Buah) :
+    Ini merupakan tipe buah. untuk buah apel, mandarin, orange, dan lemon mempunyai tipe buah yang berbeda- beda. 
+   
+    """)
+    st.write("""4. Mass (Massa Buah) :
     setiap buah mempunyai berat dengan satuan gram. setiap buah juga mempunyai massa buah yang berbeda - beda.
     
     """)
-    st.write("""3. Width (Lebar Buah):
+    st.write("""5. Width (Lebar Buah):
     setiap buah mempunyai lebar buah yang berbeda - beda.
     
     """)
-    st.write("""4. Height (Tinggi Buah):
+    st.write("""6. Height (Tinggi Buah):
     setiap buah mempunyai tinggi buah yang berbeda - beda.
     
     """)
-    st.write("""5. Color_Score (Skor Warna) :
+    st.write("""7. Color_Score (Skor Warna) :
     setiap buah mempunyai skor warna  yang berbeda - beda.
     
     """)
@@ -66,15 +81,11 @@ if (selected=="Data_Set_Description"):
     st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/135-ShintaNuriyatulMahmudiyah/PenambanganDataWeb ")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
-if (selected=="Upload Data"):
-    # uploaded_files = st.file_uploader("Upload file TXT", accept_multiple_files=True)
-    # for uploaded_file in uploaded_files:
-    #     df = pd.read_table(uploaded_file)
-    #     st.write("Nama File Anda = ", uploaded_file.name)
-    #     st.dataframe(df)
-    df = pd.read_table('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/fruit_data_with_colors.txt')
+with data:
+    df = pd.read_table('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/house_price_full.csvt')
     st.dataframe(df)
-if (selected=="Preprocessing"):
+
+with preprocessing:
     st.subheader("""Normalisasi Data""")
     st.write("""Rumus Normalisasi Data :""")
     st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
@@ -84,10 +95,9 @@ if (selected=="Preprocessing"):
     - min = nilai minimum semua data asli
     - max = nilai maksimum semua data asli
     """)
-    df = df.drop(columns=['fruit_label','fruit_subtype'])
     #Mendefinisikan Varible X dan Y
-    X = df[["mass","width","height","color_score"]]
-    y = df["fruit_name"].values
+    X = df[['bedrooms','sqft_living']]
+    y = df["price"].values
     df
     X
     df_min = X.min()
@@ -106,7 +116,7 @@ if (selected=="Preprocessing"):
     st.write(scaled_features)
 
     st.subheader('Target Label')
-    dumies = pd.get_dummies(df.fruit_name).columns.values.tolist()
+    dumies = pd.get_dummies(df.price).columns.values.tolist()
     dumies = np.array(dumies)
 
     labels = pd.DataFrame({
@@ -119,42 +129,8 @@ if (selected=="Preprocessing"):
 
     st.write(labels)
 
-    # st.subheader("""Normalisasi Data""")
-    # st.write("""Rumus Normalisasi Data :""")
-    # st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
-    # st.markdown("
-    # Dimana :
-    # - X = data yang akan dinormalisasi atau data asli
-    # - min = nilai minimum semua data asli
-    # - max = nilai maksimum semua data asli
-    # ")
-    # df.fruit_label.value_counts()
-    # df = df.drop(columns=['fruit_label','fruit_subtype'])
-    # #Mendefinisikan Varible X dan Y
-    # X = df.drop(columns=['fruit_label','fruit_subtype'])
-    # y = df['fruit_name'].values
-    # df_min = X.min()
-    # df_max = X.max()
-
-    # #NORMALISASI NILAI X
-    # scaler = MinMaxScaler()
-    # #scaler.fit(features)
-    # #scaler.transform(features)
-    # scaled = scaler.fit_transform(X)
-    # features_names = X.columns.copy()
-    # #features_names.remove('label')
-    # scaled_features = pd.DataFrame(scaled, columns=features_names)
-
-    # #Save model normalisasi
-    # from sklearn.utils.validation import joblib
-    # norm = "normalisasi.save"
-    # joblib.dump(scaled_features, norm) 
-
-
-    # st.subheader('Hasil Normalisasi Data')
-    # st.write(scaled_features)
-
-if (selected=="Modeling"):
+   
+with modeling:
     training, test = train_test_split(scaled_features,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
     training_label, test_label = train_test_split(y, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing
     with st.form("modeling"):
@@ -180,15 +156,7 @@ if (selected=="Modeling"):
         gaussian_akurasi = round(100 * accuracy_score(test_label, y_pred))
         # akurasi = 10
 
-        #Gaussian Naive Bayes
-        # gaussian = GaussianNB()
-        # gaussian = gaussian.fit(training, training_label)
-
-        # probas = gaussian.predict_proba(test)
-        # probas = probas[:,1]
-        # probas = probas.round()
-
-        # gaussian_akurasi = round(100 * accuracy_score(test_label,probas))
+        
 
         #KNN
         K=10
@@ -233,7 +201,8 @@ if (selected=="Modeling"):
                 .interactive()
             )
             st.altair_chart(chart,use_container_width=True)
-if (selected=="Implementation"):
+  
+with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
         mass = st.number_input('Masukkan berat buah (mass) : ')
