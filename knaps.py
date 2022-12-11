@@ -82,7 +82,7 @@ with data_set_description:
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
 with data:
-    df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/dementia_dataset.csv')
+    df = pd.read_csv('https://raw.githubusercontent.com/Shintaalya/Datafile/main/citrus.csv')
     st.dataframe(df)
 
 with preprocessing:
@@ -95,10 +95,10 @@ with preprocessing:
     - min = nilai minimum semua data asli
     - max = nilai maksimum semua data asli
     """)
-    df = df.drop(columns=['Subject ID','MRI ID','M/F','SES'])
+    
     #Mendefinisikan Varible X dan Y
-    X = df[['Visit','MR Delay','EDUC','Hand','Age','MMSE','CDR','eTIV','nWBV','ASF']]
-    y = df["Group"].values
+    X = df[['diameter','weight','red','green','blue']]
+    y = df["name"].values
     df
     X
     df_min = X.min()
@@ -117,7 +117,7 @@ with preprocessing:
     st.write(scaled_features)
 
     st.subheader('Target Label')
-    dumies = pd.get_dummies(df.Group).columns.values.tolist()
+    dumies = pd.get_dummies(df.name).columns.values.tolist()
     dumies = np.array(dumies)
 
     labels = pd.DataFrame({
