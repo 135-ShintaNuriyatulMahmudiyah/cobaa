@@ -205,10 +205,12 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        mass = st.number_input('Masukkan berat buah (mass) : ')
-        width = st.number_input('Masukkan lebar buah (width) : ')
-        height = st.number_input('Masukkan tinggi buah (height) : ')
-        color_score = st.number_input('Masukkan skor warna (color_score) : ')
+        diameter = st.number_input('Masukkan berat buah (diameter) : ')
+        weight = st.number_input('Masukkan lebar buah (weight) : ')
+        red = st.number_input('Masukkan tinggi buah (red) : ')
+        green = st.number_input('Masukkan skor warna (green) : ')
+        blue = st.number_input('Masukkan skor warna (blue) : ')
+
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
 
