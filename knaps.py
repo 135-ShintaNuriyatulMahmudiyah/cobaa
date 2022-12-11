@@ -217,10 +217,11 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                mass,
-                width,
-                height,
-                color_score
+                diameter,
+                weight,
+                red,
+                green,
+                blue
             ])
 
             df_min = X.min()
