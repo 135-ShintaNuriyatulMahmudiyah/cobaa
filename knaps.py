@@ -95,7 +95,7 @@ with preprocessing:
     - min = nilai minimum semua data asli
     - max = nilai maksimum semua data asli
     """)
-    df = df.drop(columns=['SUBJECT ID','MR ID','SES'])
+    df = df.drop(columns=['SUBJECT ID','MRI ID','SES'])
     #Mendefinisikan Varible X dan Y
     X = df[['Visit','MR Delay','Age','EDUC','MMSE','CDR','eTIV','nWBV','ASF']]
     y = df["Group"].values
