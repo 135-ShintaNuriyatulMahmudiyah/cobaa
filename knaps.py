@@ -98,7 +98,7 @@ with preprocessing:
     
     #Mendefinisikan Varible X dan Y
     X = df[["school","sex", "age", "address", "famsize", "Pstatus", "Medu", "Fedu", "traveltime", "studytime","failures","schoolsup","famsup", "paid", "activities", "nursery", "higher", "internet", "romantic","famrel","freetime", "goout", "Dalc", "Walc", "health", "absences", "G1", "G2", "G3"]]
-    y = df["class"].values
+    y = df["pass"].values
     df
     X
     df_min = X.min()
@@ -117,7 +117,7 @@ with preprocessing:
     st.write(scaled_features)
 
     st.subheader('Target Label')
-    dumies = pd.get_dummies(df.class).columns.values.tolist()
+    dumies = pd.get_dummies(df.pass).columns.values.tolist()
     dumies = np.array(dumies)
 
     labels = pd.DataFrame({
