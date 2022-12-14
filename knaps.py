@@ -82,7 +82,7 @@ with data_set_description:
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
 with data:
-    df = pd.read_csv('https://raw.githubusercontent.com/CitraIndahL/dataset/main/student-mat-pass-or-fail.csv')
+    df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/cobaa/main/Loan_Data.csv')
     st.dataframe(df)
 
 with preprocessing:
@@ -96,9 +96,12 @@ with preprocessing:
     - max = nilai maksimum semua data asli
     """)
     
+    df = df.drop(columns=["Loan_ID"])
+
     #Mendefinisikan Varible X dan Y
-    X = df[["school","sex", "age", "address", "famsize", "Pstatus", "Medu", "Fedu", "traveltime", "studytime","failures","schoolsup","famsup", "paid", "activities", "nursery", "higher", "internet", "romantic","famrel","freetime", "goout", "Dalc", "Walc", "health", "absences", "G1", "G2", "G3"]]
-    y = df["pass"].values
+    X = df[['Gender','Married','Dependents','Education','Self_Employed','ApplicantIncome','CoapplicantIncome',
+            'LoanAmount','Loan_Amount_Term','Credit_History','Property_Area']]
+    y = df["Loan_Status"].values
     df
     X
     df_min = X.min()
@@ -117,7 +120,7 @@ with preprocessing:
     st.write(scaled_features)
 
     st.subheader('Target Label')
-    dumies = pd.get_dummies(df.pass).columns.values.tolist()
+    dumies = pd.get_dummies(df.Loan_Status).columns.values.tolist()
     dumies = np.array(dumies)
 
     labels = pd.DataFrame({
@@ -205,11 +208,17 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        diameter = st.number_input('Masukkan berat buah (diameter) : ')
-        weight = st.number_input('Masukkan lebar buah (weight) : ')
-        red = st.number_input('Masukkan tinggi buah (red) : ')
-        green = st.number_input('Masukkan skor warna (green) : ')
-        blue = st.number_input('Masukkan skor warna (blue) : ')
+        Gender = st.number_input('Masukkan berat buah (Gender) : ')
+        Married = st.number_input('Masukkan lebar buah (Married) : ')
+        Dependents = st.number_input('Masukkan tinggi buah (Dependents) : ')
+        Education = st.number_input('Masukkan skor warna (Education) : ')
+        Self_Employed= st.number_input('Masukkan skor warna (Self_Employed) : ')
+        ApplicantIncome = st.number_input('Masukkan berat buah (ApplicantIncome) : ')
+        CoapplicantIncome = st.number_input('Masukkan lebar buah (CoapplicantIncome) : ')
+        LoanAmount = st.number_input('Masukkan tinggi buah (LoanAmount) : ')
+        Loan_Amount_Term = st.number_input('Masukkan skor warna (Loan_Amount_Term) : ')
+        Credit_History= st.number_input('Masukkan skor warna (Credit_History) : ')
+        Property_Area= st.number_input('Masukkan skor warna (Property_Area) : ')
 
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
@@ -217,11 +226,17 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                diameter,
-                weight,
-                red,
-                green,
-                blue
+                'Gender',
+                'Married',
+                'Dependents',
+                'Education',
+                'Self_Employed',
+                'ApplicantIncome',
+                'CoapplicantIncome',
+                'LoanAmount',
+                'Loan_Amount_Term',
+                'Credit_History',
+                'Property_Area'
             ])
 
             df_min = X.min()
