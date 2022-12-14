@@ -14,70 +14,49 @@ from sklearn.tree import DecisionTreeClassifier
 # warnings.filterwarnings("ignore")
 
 
-st.title("Web Apps - Classification Fruit With Color")
+st.title("Web Apps - Star Dataset to Predict Stars Types")
 
 st.write("================================================================================")
 
-st.write("Name :Shinta Nuriyatul Mahmudiyah")
-st.write("Nim  :200411100135")
-st.write("Grade: Penambangan Data A")
+st.write("Name :Isnaini")
+st.write("Nim  :200411100038")
+st.write("Grade: Penambangan Data c")
 
 data_set_description, data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
 
 with data_set_description:
     st.write("""# Data Set Description """)
-    st.write("###### Data Set Ini Adalah : Fruit with Color ")
-    st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/mjamilmoughal/fruits-with-colors-dataset")
-    st.write("""Dalam dataset ini terdapat 59 data dan 7 kolom yaitu fruit label, fruit name, fruit subtype, mass width, height, dan color score. Untuk
-     dataset ini mempunyai 4 kelas yaitu Apple, Mandarin, Orange, dan Lemon. 
-   
+    st.write("###### Data Set Ini Adalah : Predict Star Types ")
+    st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/deepu1109/star-dataset")
+    st.write("""Dalam dataset ini terdapat 59 data dan 7 kolom yaitu Temperature_(K),Luminosity(L/Lo),Radius(R/Ro),Absolute_magnitude(Mv),Star_type,Star_Color,Spectral_Class. 
     """)
-    st.write("""###### Penjelasan setiap kolom : """)
-    st.write("""1. Fruit Label (Label Buah) :
-    Label Buah ini menrupakan pengganti nama buah. Berikur penjelasan:
-    1. Apel
-    2. Mandarin
-    3. Orange
-    4. Lemon
-   
+    st.write("""###### DATASET INFO : """)
+    st.write("""1. Ini adalah kumpulan data yang terdiri dari beberapa fitur bintang, diantaranya :  :
+    Absolute Temperature (in K)
+    Relative Luminosity (L/Lo)
+    Relative Radius (R/Ro)
+    Absolute Magnitude (Mv)
+    Star Color (white,Red,Blue,Yellow,yellow-orange etc)
+    Spectral Class (O,B,A,F,G,K,,M)
+    Star Type **(Red Dwarf, Brown Dwarf, White Dwarf, Main Sequence , SuperGiants, HyperGiants)**
+    Lo = 3.828 x 10^26 Watts (Avg Luminosity of Sun)
+    Ro = 6.9551 x 10^8 m (Avg Radius of Sun)
     """)
-    st.write("""2. Fruit Name (Nama Buah) :
-    ini akan menjadi outputnya yaitu nama buah.Dalam Aplikasi ini akan nama nuah yang akan diprediksi ada 4 yaitu Apple, Orange, Mandarin, dan Lemon.
-   
+    st.write("""2.Spectral Class :
+    ini akan menjadi outputnya yaitu kelas scpectral.Dalam Aplikasi ini  akan emnghasilkan 7 prediksi  yaitu O,B,A,F,G,K,,M.
     """)
-    
-    st.write("""3. Fruit Subtype (Tipe Buah) :
-    Ini merupakan tipe buah. untuk buah apel, mandarin, orange, dan lemon mempunyai tipe buah yang berbeda- beda. 
-   
-    """)
-    st.write("""4. Mass (Massa Buah) :
-    setiap buah mempunyai berat dengan satuan gram. setiap buah juga mempunyai massa buah yang berbeda - beda.
-    
-    """)
-    st.write("""5. Width (Lebar Buah):
-    setiap buah mempunyai lebar buah yang berbeda - beda.
-    
-    """)
-    st.write("""6. Height (Tinggi Buah):
-    setiap buah mempunyai tinggi buah yang berbeda - beda.
-    
-    """)
-    st.write("""7. Color_Score (Skor Warna) :
-    setiap buah mempunyai skor warna  yang berbeda - beda.
-    
-    """)
-    st.write("""Dari inputan Massa, Width, Height, dan Color_Score itu akan menghasilkan output nama buah
-    
-    """)
-    
-    st.write("""Memprediksi Nama Buah (output) :
+    st.write("""Memprediksi Spectral Class (output) :
 
-    1. Apple 
-    2. Mandarin 
-    3. Orange 
-    4. Lemon 
+    1. O
+    2. B
+    3. A 
+    4. F
+    5.G
+    6.K
+    7.M
+    
     """)
-    st.write("###### Aplikasi ini untuk : Fruit  Prediction (Prediksi buah) ")
+    st.write("###### Aplikasi ini untuk : Star Dataset To Predict Star Types (Kumpulan Data Bintang Untuk Memprediksi Jenis Bintang) ")
     st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/135-ShintaNuriyatulMahmudiyah/PenambanganDataWeb ")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
@@ -211,12 +190,12 @@ with modeling:
   
 with implementation:
     with st.form("my_form"):
-        st.subheader("Implementasi")
-        suhu = st.number_input('Masukkan lebar buah  : ')
-        kilau = st.number_input('Masukkan lebar buah  : ')
-        jarak = st.number_input('Masukkan tinggi buah  : ')
-        magnitudo_mutlak = st.number_input('Masukkan skor warna  : ')
-        tipe_bintang = st.number_input('Masukkan skor warna (Star_type) : ')
+        st.subheader("Implementasi") 
+        suhu = st.number_input('Masukkan Temperature_(K)  : ')
+        kilau = st.number_input('Masukkan Luminosity(L/Lo) : ')
+        jarak = st.number_input('Masukkan Radius(R/Ro)  : ')
+        magnitudo_mutlak = st.number_input('Masukkan Absolute_magnitude(Mv)  : ')
+        tipe_bintang = st.number_input('Masukkan Star_type : ')
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
 
