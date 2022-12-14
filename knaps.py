@@ -212,10 +212,10 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Tempratur = st.number_input('Masukkan lebar buah  : ')
+        suhu = st.number_input('Masukkan lebar buah  : ')
         kilau = st.number_input('Masukkan lebar buah  : ')
         jarak = st.number_input('Masukkan tinggi buah  : ')
-        Magnitudo_mutlak = st.number_input('Masukkan skor warna  : ')
+        magnitudo_mutlak = st.number_input('Masukkan skor warna  : ')
         tipe_bintang = st.number_input('Masukkan skor warna (Star_type) : ')
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
@@ -223,10 +223,10 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                'Tempratur',
+                'suhu',
                 'kilau',
                 'jarak',
-                'Magnitudo_mutlak',
+                'magnitudo_mutlak',
                 'tipe_bintang'
             ])
 
