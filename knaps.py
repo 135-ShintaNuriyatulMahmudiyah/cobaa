@@ -99,7 +99,7 @@ with preprocessing:
     df = df.drop(columns=["Loan_ID",'Gender','Married','Education','Property_Area'])
 
     #Mendefinisikan Varible X dan Y
-    X = df[['Dependents','Self_Employed','ApplicantIncome','CoapplicantIncome',
+    X = df[['Self_Employed','ApplicantIncome','CoapplicantIncome',
             'LoanAmount','Loan_Amount_Term','Credit_History']]
     y = df["Loan_Status"].values
     df
@@ -208,7 +208,6 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Dependents = st.number_input('Masukkan tinggi buah (Dependents) : ')
         Self_Employed= st.number_input('Masukkan skor warna (Self_Employed) : ')
         ApplicantIncome = st.number_input('Masukkan berat buah (ApplicantIncome) : ')
         CoapplicantIncome = st.number_input('Masukkan lebar buah (CoapplicantIncome) : ')
