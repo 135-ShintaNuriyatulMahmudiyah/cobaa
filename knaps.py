@@ -96,10 +96,10 @@ with preprocessing:
     - max = nilai maksimum semua data asli
     """)
     
-    df = df.drop(columns=["Loan_ID",'Gender','Married','Education','Property_Area'])
+    df = df.drop(columns=["Loan_ID",'Gender','Dependents','Self_Employed','Married','Education','Property_Area'])
 
     #Mendefinisikan Varible X dan Y
-    X = df[['Self_Employed','ApplicantIncome','CoapplicantIncome',
+    X = df[['ApplicantIncome','CoapplicantIncome',
             'LoanAmount','Loan_Amount_Term','Credit_History']]
     y = df["Loan_Status"].values
     df
@@ -208,7 +208,6 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Self_Employed= st.text_input('Masukkan skor warna (Self_Employed) : ')
         ApplicantIncome = st.number_input('Masukkan berat buah (ApplicantIncome) : ')
         CoapplicantIncome = st.number_input('Masukkan lebar buah (CoapplicantIncome) : ')
         LoanAmount = st.number_input('Masukkan tinggi buah (LoanAmount) : ')
@@ -222,8 +221,6 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                'Dependents',
-                'Self_Employed',
                 'ApplicantIncome',
                 'CoapplicantIncome',
                 'LoanAmount',
