@@ -212,13 +212,14 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Temperature_(K)= st.number_input('Masukkan lebar buah (Temperature_(K))) : ')
-        Luminosity(L/Lo)= st.number_input('Masukkan lebar buah (Luminosity(L/Lo)) : ')
-        Radius(R/Ro) = st.number_input('Masukkan tinggi buah (Radius(R/Ro)) : ')
-        Absolute_magnitude(Mv) = st.number_input('Masukkan skor warna (Absolute_magnitude(Mv)) : ')
-        Star_type= st.number_input('Masukkan skor warna (Star_type) : ')
+        Temperature_(K)= st.number_input('Masukkan lebar buah ) : ')
+        Luminosity(L/Lo)= st.number_input('Masukkan lebar buah ) : ')
+        Radius(R/Ro) = st.number_input('Masukkan tinggi buah ) : ')
+        Absolute_magnitude(Mv) = st.number_input('Masukkan skor warna ) : ')
+        Star_type= st.number_input('Masukkan skor warna (Star_type)) : ')
 
 
+       
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
 
