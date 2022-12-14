@@ -212,10 +212,10 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Temperature_(K)= st.number_input('Masukkan lebar buah ) : ')
-        Luminosity(L/Lo)= st.number_input('Masukkan lebar buah ) : ')
-        Radius(R/Ro) = st.number_input('Masukkan tinggi buah ) : ')
-        Absolute_magnitude(Mv) = st.number_input('Masukkan skor warna ) : ')
+        Temperature = st.number_input('Masukkan lebar buah ) : ')
+        Luminosity = st.number_input('Masukkan lebar buah ) : ')
+        Radius = st.number_input('Masukkan tinggi buah ) : ')
+        Absolute_magnitude = st.number_input('Masukkan skor warna ) : ')
         Star_type= st.number_input('Masukkan skor warna (Star_type)) : ')
 
 
@@ -226,10 +226,10 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                'Temperature_(K)',
-                'Luminosity(L/Lo)',
-                'Radius(R/Ro)',
-                'Absolute_magnitude(Mv)',
+                'Temperature',
+                'Luminosity',
+                'Radius',
+                'Absolute_magnitude',
                 'Star_type'
             ])
 
