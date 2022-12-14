@@ -217,9 +217,6 @@ with implementation:
         Radius = st.number_input('Masukkan tinggi buah  : ')
         Absolute_magnitude = st.number_input('Masukkan skor warna  : ')
         Star_type= st.number_input('Masukkan skor warna (Star_type) : ')
-
-
-       
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
 
