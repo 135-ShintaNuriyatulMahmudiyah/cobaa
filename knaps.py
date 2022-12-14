@@ -99,7 +99,7 @@ with preprocessing:
     df = df.drop(columns=["Star color"])
 
     #Mendefinisikan Varible X dan Y
-    X = df[['Temperature (K)','Luminosity(L/Lo)','Radius(R/Ro)','Absolute_magnitude(Mv)','Star_type']]
+    X = df[['Temperature(K)','Luminosity(L/Lo)','Radius(R/Ro)','Absolute_magnitude(Mv)','Star_type']]
     y = df["Spectral_Class"].values
     df
     X
@@ -207,7 +207,7 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Temperature (K) = st.number_input('Masukkan berat buah (ApplicantIncome) : ')
+        Temperature(K) = st.number_input('Masukkan berat buah (ApplicantIncome) : ')
         Luminosity(L/Lo)= st.number_input('Masukkan lebar buah (Luminosity(L/Lo)) : ')
         Radius(R/Ro) = st.number_input('Masukkan tinggi buah (Radius(R/Ro)) : ')
         Absolute_magnitude(Mv) = st.number_input('Masukkan skor warna (Absolute magnitude(Mv)) : ')
@@ -220,7 +220,7 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                'Temperature (K)','Luminosity(L/Lo)','Radius(R/Ro)','Absolute magnitude(Mv)','Star type'
+                'Temperature(K)','Luminosity(L/Lo)','Radius(R/Ro)','Absolute_magnitude(Mv)','Star_type'
             ])
 
             df_min = X.min()
