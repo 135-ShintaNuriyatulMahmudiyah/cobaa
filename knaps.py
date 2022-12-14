@@ -208,7 +208,7 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Self_Employed= st.number_input('Masukkan skor warna (Self_Employed) : ')
+        Self_Employed= st.text_input('Masukkan skor warna (Self_Employed) : ')
         ApplicantIncome = st.number_input('Masukkan berat buah (ApplicantIncome) : ')
         CoapplicantIncome = st.number_input('Masukkan lebar buah (CoapplicantIncome) : ')
         LoanAmount = st.number_input('Masukkan tinggi buah (LoanAmount) : ')
