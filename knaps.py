@@ -99,8 +99,8 @@ with preprocessing:
     df = df.drop(columns=["Star color"])
 
     #Mendefinisikan Varible X dan Y
-    X = df[['Temperature (K)','Luminosity(L/Lo)','Radius(R/Ro)','Absolute magnitude(Mv)','Star type']]
-    y = df["Spectral Class"].values
+    X = df[['Temperature (K)','Luminosity(L/Lo)','Radius(R/Ro)','Absolute_magnitude(Mv)','Star_type']]
+    y = df["Spectral_Class"].values
     df
     X
     df_min = X.min()
@@ -119,7 +119,7 @@ with preprocessing:
     st.write(scaled_features)
 
     st.subheader('Target Label')
-    dumies = pd.get_dummies(df.Spectral Class).columns.values.tolist()
+    dumies = pd.get_dummies(df.Spectral_Class).columns.values.tolist()
     dumies = np.array(dumies)
 
     labels = pd.DataFrame({
@@ -210,8 +210,8 @@ with implementation:
         Temperature (K) = st.number_input('Masukkan berat buah (ApplicantIncome) : ')
         Luminosity(L/Lo)= st.number_input('Masukkan lebar buah (Luminosity(L/Lo)) : ')
         Radius(R/Ro) = st.number_input('Masukkan tinggi buah (Radius(R/Ro)) : ')
-        Absolute magnitude(Mv) = st.number_input('Masukkan skor warna (Absolute magnitude(Mv)) : ')
-        Star type= st.number_input('Masukkan skor warna (Star type) : ')
+        Absolute_magnitude(Mv) = st.number_input('Masukkan skor warna (Absolute magnitude(Mv)) : ')
+        Star_type= st.number_input('Masukkan skor warna (Star type) : ')
 
 
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
