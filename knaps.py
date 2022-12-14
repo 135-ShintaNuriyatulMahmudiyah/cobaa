@@ -212,11 +212,11 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Temperature = st.number_input('Masukkan lebar buah ) : ')
-        kilau = st.number_input('Masukkan lebar buah ) : ')
-        Radius = st.number_input('Masukkan tinggi buah ) : ')
-        Absolute_magnitude = st.number_input('Masukkan skor warna ) : ')
-        Star_type= st.number_input('Masukkan skor warna (Star_type)) : ')
+        Temperature = st.number_input('Masukkan lebar buah  : ')
+        kilau = st.number_input('Masukkan lebar buah  : ')
+        Radius = st.number_input('Masukkan tinggi buah  : ')
+        Absolute_magnitude = st.number_input('Masukkan skor warna  : ')
+        Star_type= st.number_input('Masukkan skor warna (Star_type) : ')
 
 
        
