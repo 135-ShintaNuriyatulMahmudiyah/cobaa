@@ -96,11 +96,11 @@ with preprocessing:
     - max = nilai maksimum semua data asli
     """)
     
-    df = df.drop(columns=["Loan_ID"])
+    df = df.drop(columns=["Loan_ID",'Gender','Married','Education','Property_Area'])
 
     #Mendefinisikan Varible X dan Y
-    X = df[['Gender','Married','Dependents','Education','Self_Employed','ApplicantIncome','CoapplicantIncome',
-            'LoanAmount','Loan_Amount_Term','Credit_History','Property_Area']]
+    X = df[['Dependents','Self_Employed','ApplicantIncome','CoapplicantIncome',
+            'LoanAmount','Loan_Amount_Term','Credit_History']]
     y = df["Loan_Status"].values
     df
     X
@@ -208,17 +208,14 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        Gender = st.number_input('Masukkan berat buah (Gender) : ')
-        Married = st.number_input('Masukkan lebar buah (Married) : ')
         Dependents = st.number_input('Masukkan tinggi buah (Dependents) : ')
-        Education = st.number_input('Masukkan skor warna (Education) : ')
         Self_Employed= st.number_input('Masukkan skor warna (Self_Employed) : ')
         ApplicantIncome = st.number_input('Masukkan berat buah (ApplicantIncome) : ')
         CoapplicantIncome = st.number_input('Masukkan lebar buah (CoapplicantIncome) : ')
         LoanAmount = st.number_input('Masukkan tinggi buah (LoanAmount) : ')
         Loan_Amount_Term = st.number_input('Masukkan skor warna (Loan_Amount_Term) : ')
         Credit_History= st.number_input('Masukkan skor warna (Credit_History) : ')
-        Property_Area= st.number_input('Masukkan skor warna (Property_Area) : ')
+
 
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
@@ -226,17 +223,13 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                'Gender',
-                'Married',
                 'Dependents',
-                'Education',
                 'Self_Employed',
                 'ApplicantIncome',
                 'CoapplicantIncome',
                 'LoanAmount',
                 'Loan_Amount_Term',
                 'Credit_History',
-                'Property_Area'
             ])
 
             df_min = X.min()
