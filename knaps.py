@@ -82,7 +82,7 @@ with data_set_description:
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
 with data:
-    df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/cobaa/main/Loan_Data.csv')
+    df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/cobaa/main/6%20class%20csv.csv')
     st.dataframe(df)
 
 with preprocessing:
@@ -96,12 +96,11 @@ with preprocessing:
     - max = nilai maksimum semua data asli
     """)
     
-    df = df.drop(columns=["Loan_ID",'Gender','Dependents','Self_Employed','Married','Education','Property_Area'])
+    df = df.drop(columns=["Star color"])
 
     #Mendefinisikan Varible X dan Y
-    X = df[['ApplicantIncome','CoapplicantIncome',
-            'LoanAmount','Loan_Amount_Term','Credit_History']]
-    y = df["Loan_Status"].values
+    X = df[['Temperature (K)','Luminosity(L/Lo)','Radius(R/Ro)','Absolute magnitude(Mv)','Star type']]
+    y = df["Spectral Class"].values
     df
     X
     df_min = X.min()
@@ -120,7 +119,7 @@ with preprocessing:
     st.write(scaled_features)
 
     st.subheader('Target Label')
-    dumies = pd.get_dummies(df.Loan_Status).columns.values.tolist()
+    dumies = pd.get_dummies(df.Spectral Class).columns.values.tolist()
     dumies = np.array(dumies)
 
     labels = pd.DataFrame({
@@ -145,7 +144,21 @@ with modeling:
         submitted = st.form_submit_button("Submit")
 
         
-        
+        # NB
+        GaussianNB(priors=None)
+
+        # Fitting Naive Bayes Classification to the Training set with linear kernel
+        gaussian = GaussianNB()
+        gaussian = gaussian.fit(training, training_label)
+
+        # Predicting the Test set results
+        y_pred = gaussian.predict(test)
+    
+        y_compare = np.vstack((test_label,y_pred)).T
+        gaussian.predict_proba(test)
+        gaussian_akurasi = round(100 * accuracy_score(test_label, y_pred))
+        # akurasi = 10
+
 
         #KNN
         K=10
@@ -194,11 +207,11 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
-        ApplicantIncome = st.number_input('Masukkan berat buah (ApplicantIncome) : ')
-        CoapplicantIncome = st.number_input('Masukkan lebar buah (CoapplicantIncome) : ')
-        LoanAmount = st.number_input('Masukkan tinggi buah (LoanAmount) : ')
-        Loan_Amount_Term = st.number_input('Masukkan skor warna (Loan_Amount_Term) : ')
-        Credit_History= st.number_input('Masukkan skor warna (Credit_History) : ')
+        Temperature (K) = st.number_input('Masukkan berat buah (ApplicantIncome) : ')
+        Luminosity(L/Lo)= st.number_input('Masukkan lebar buah (Luminosity(L/Lo)) : ')
+        Radius(R/Ro) = st.number_input('Masukkan tinggi buah (Radius(R/Ro)) : ')
+        Absolute magnitude(Mv) = st.number_input('Masukkan skor warna (Absolute magnitude(Mv)) : ')
+        Star type= st.number_input('Masukkan skor warna (Star type) : ')
 
 
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
@@ -207,11 +220,7 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                'ApplicantIncome',
-                'CoapplicantIncome',
-                'LoanAmount',
-                'Loan_Amount_Term',
-                'Credit_History',
+                'Temperature (K)','Luminosity(L/Lo)','Radius(R/Ro)','Absolute magnitude(Mv)','Star type'
             ])
 
             df_min = X.min()
