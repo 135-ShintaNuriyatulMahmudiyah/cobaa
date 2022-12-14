@@ -207,6 +207,7 @@ with modeling:
                 .interactive()
             )
             st.altair_chart(chart,use_container_width=True)
+            
   
 with implementation:
     with st.form("my_form"):
@@ -224,7 +225,7 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                "Temperature_(K)",
+                'Temperature_(K)',
                 'Luminosity(L/Lo)',
                 'Radius(R/Ro)',
                 'Absolute_magnitude(Mv)',
