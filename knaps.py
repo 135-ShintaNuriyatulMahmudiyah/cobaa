@@ -61,7 +61,7 @@ with data_set_description:
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
 with data:
-    df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/cobaa/main/6%20class%20csv.csv')
+    df = pd.read_csv('https://raw.githubusercontent.com/elmatiaaa/prosaindata/main/PTRO.JK.csv')
     st.dataframe(df)
 
 with preprocessing:
@@ -79,8 +79,8 @@ with preprocessing:
     df = df.drop(columns=["Star_color"])
 
     #Mendefinisikan Varible X dan Y
-    X = df[['Temperature_(K)','Luminosity(L/Lo)','Radius(R/Ro)','Absolute_magnitude(Mv)','Star_type']]
-    y = df["Spectral_Class"].values
+    X = df[['Date','Open','High','Low','Close','Adj Close']]
+    y = df["Volume"].values
     df
     X
     df_min = X.min()
@@ -99,7 +99,7 @@ with preprocessing:
     st.write(scaled_features)
 
     st.subheader('Target Label')
-    dumies = pd.get_dummies(df.Spectral_Class).columns.values.tolist()
+    dumies = pd.get_dummies(df.Volume).columns.values.tolist()
     dumies = np.array(dumies)
 
     labels = pd.DataFrame({
