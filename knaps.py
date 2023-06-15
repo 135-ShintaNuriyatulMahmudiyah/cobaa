@@ -124,23 +124,7 @@ with modeling:
         destree = st.checkbox('Decission Tree')
         submitted = st.form_submit_button("Submit")
 
-        
-        # NB
-        GaussianNB(priors=None)
-
-        # Fitting Naive Bayes Classification to the Training set with linear kernel
-        gaussian = GaussianNB()
-        gaussian = gaussian.fit(training,traning_label)
-
-        # Predicting the Test set results
-        y_pred = gaussian.predict(test)
-    
-        y_compare = np.vstack((test_label,y_pred)).T
-        gaussian.predict_proba(test)
-        gaussian_akurasi = round(100 * accuracy_score(test_label, y_pred))
-        # akurasi = 10
-
-
+       
         #KNN
         K=10
         knn=KNeighborsClassifier(n_neighbors=K)
