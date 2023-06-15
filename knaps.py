@@ -106,7 +106,8 @@ with preprocessing:
 
    
 with modeling:
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+    training,test = train_test_split(X, y, test_size=0.2, random_state=0)
+    training_label,test_test_label= train_test_split(X, y, test_size=0.2, random_state=0)
     with st.form("modeling"):
         st.subheader('Modeling')
         st.write("Pilihlah model yang akan dilakukan pengecekkan akurasi:")
