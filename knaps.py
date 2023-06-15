@@ -86,17 +86,7 @@ with preprocessing:
     df_min = X.min()
     df_max = X.max()
     
-    #NORMALISASI NILAI X
-    scaler = MinMaxScaler()
-    #scaler.fit(features)
-    #scaler.transform(features)
-    scaled = scaler.fit_transform(x)
-    features_names = X.columns.copy()
-    #features_names.remove('label')
-    scaled_features = pd.DataFrame(scaled, columns=features_names)
-
-    st.subheader('Hasil Normalisasi Data')
-    st.write(scaled_features)
+    
 
     st.subheader('Target Label')
     dumies = pd.get_dummies(df.Volume).columns.values.tolist()
