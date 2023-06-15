@@ -130,7 +130,7 @@ with modeling:
 
         # Fitting Naive Bayes Classification to the Training set with linear kernel
         gaussian = GaussianNB()
-        gaussian = gaussian.fit(training)
+        gaussian = gaussian.fit(training,traning_label)
 
         # Predicting the Test set results
         y_pred = gaussian.predict(test)
