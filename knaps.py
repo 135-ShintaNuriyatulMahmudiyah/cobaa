@@ -75,8 +75,7 @@ with preprocessing:
     - max = nilai maksimum semua data asli
     """)
     
-    
-    df = df.drop(columns=["Star_color"])
+
 
     #Mendefinisikan Varible X dan Y
     X = df[['Date','Open','High','Low','Close','Adj Close']]
