@@ -181,7 +181,7 @@ with implementation:
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                'Open,
+                'Open',
                 'High',
                 'Low',
                 'Close',
