@@ -77,9 +77,9 @@ with preprocessing:
     
 
     
-    df = df.drop(columns=['AdjClose'])
+    df = df.drop(columns=['Date'])
     #Mendefinisikan Varible X dan Y
-    X = df[['Open','High','Low','Close','Date']]
+    X = df[['Open','High','Low','Close','AdjClose']]
     y = df["Volume"].values
     df
     X
@@ -170,31 +170,30 @@ with modeling:
 with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi") 
-        suhu = st.number_input('Masukkan Temperature_(K)  : ')
-        kilau = st.number_input('Masukkan Luminosity(L/Lo) : ')
-        jarak = st.number_input('Masukkan Radius(R/Ro)  : ')
-        magnitudo_mutlak = st.number_input('Masukkan Absolute_magnitude(Mv)  : ')
-        tipe_bintang = st.number_input('Masukkan Star_type : ')
+        Open = st.number_input('input Open : ')
+        High = st.number_input('Input High : ')
+        Low= st.number_input('Input Low : ')
+        Close = st.number_input('Input Close : ')
+        AdjClose = st.number_input('Input AdjClose : ')
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
-                ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
+                ( 'K-NN', 'Decision Tree'))
 
         prediksi = st.form_submit_button("Submit")
         if prediksi:
             inputs = np.array([
-                'suhu',
-                'kilau',
-                'jarak',
-                'magnitudo_mutlak',
-                'tipe_bintang'
+                'Open,
+                'High',
+                'Low',
+                'Close',
+                'AdjClose'
+               
             ])
 
             df_min = X.min()
             df_max = X.max()
             input_norm = ((inputs - df_min) / (df_max - df_min))
             input_norm = np.array(input_norm).reshape(1, -1)
-
-            if model == 'Gaussian Naive Bayes':
-                mod = gaussian
+\
             if model == 'K-NN':
                 mod = knn 
             if model == 'Decision Tree':
