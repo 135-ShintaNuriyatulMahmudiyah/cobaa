@@ -77,16 +77,25 @@ with preprocessing:
     
 
     
-    df = df.drop(columns=['AdjClose'])
+    df = df.drop(columns=['Date'])
     #Mendefinisikan Varible X dan Y
-    X = df[['Date','Open','High','Low','Close']]
+    X = df[['Open','High','Low','Close','Adjclose']]
     y = df["Volume"].values
     df
     X
     df_min = X.min()
     df_max = X.max()
-    
-    
+      #NORMALISASI NILAI X
+    scaler = MinMaxScaler()
+    #scaler.fit(features)
+    #scaler.transform(features)
+    scaled = scaler.fit_transform(X)
+    features_names = X.columns.copy()
+    #features_names.remove('label')
+    scaled_features = pd.DataFrame(scaled, columns=features_names)
+
+    st.subheader('Hasil Normalisasi Data')
+    st.write(scaled_features)
 
     st.subheader('Target Label')
     dumies = pd.get_dummies(df.Volume).columns.values.tolist()
@@ -97,8 +106,6 @@ with preprocessing:
         '2' : [dumies[1]],
         '3' : [dumies[2]],
         '4' : [dumies[3]],
-        '5' : [dumies[4]],
-        
         
     })
 
@@ -106,7 +113,9 @@ with preprocessing:
 
    
 with modeling:
-    training = train_test_split(X, y, test_size=0.2, random_state=0)
+    training, test = train_test_split(scaled_features,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
+    training_label, test_label = train_test_split(y, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing
+
     with st.form("modeling"):
         st.subheader('Modeling')
         st.write("Pilihlah model yang akan dilakukan pengecekkan akurasi:")
