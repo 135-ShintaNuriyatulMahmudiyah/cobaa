@@ -106,7 +106,7 @@ with preprocessing:
 
    
 with modeling:
-    training, test = train_test_split(X,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
+    training, test = train_test_split(x,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
     training_label, test_label = train_test_split(y, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing
     with st.form("modeling"):
         st.subheader('Modeling')
