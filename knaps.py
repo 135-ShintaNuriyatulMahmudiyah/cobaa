@@ -89,7 +89,7 @@ with preprocessing:
     scaler = MinMaxScaler()
     #scaler.fit(features)
     #scaler.transform(features)
-    scaled = scaler.fit_transform()
+    scaled = scaler.fit_transform(x)
     features_names = X.columns.copy()
     #features_names.remove('label')
     scaled_features = pd.DataFrame(scaled, columns=features_names)
