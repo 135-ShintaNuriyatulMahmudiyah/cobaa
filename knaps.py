@@ -142,8 +142,6 @@ with modeling:
         dt_akurasi = round(100 * accuracy_score(test_label,dt_pred))
 
         if submitted :
-            if naive :
-                st.write('Model Naive Bayes accuracy score: {0:0.2f}'. format(gaussian_akurasi))
             if k_nn :
                 st.write("Model KNN accuracy score : {0:0.2f}" . format(knn_akurasi))
             if destree :
@@ -152,8 +150,8 @@ with modeling:
         grafik = st.form_submit_button("Grafik akurasi semua model")
         if grafik:
             data = pd.DataFrame({
-                'Akurasi' : [gaussian_akurasi, knn_akurasi, dt_akurasi],
-                'Model' : ['Gaussian Naive Bayes', 'K-NN', 'Decission Tree'],
+                'Akurasi' : [knn_akurasi, dt_akurasi],
+                'Model' : [ 'K-NN', 'Decission Tree'],
             })
 
             chart = (
