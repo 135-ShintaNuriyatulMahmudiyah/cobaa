@@ -79,7 +79,7 @@ with preprocessing:
     
     df = df.drop(columns=['AdjClose'])
     #Mendefinisikan Varible X dan Y
-    X = df[['Date','Open','High','Low','Close','AdjClose']]
+    X = df[['Date','Open','High','Low','Close']]
     y = df["Volume"].values
     df
     X
