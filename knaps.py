@@ -61,7 +61,7 @@ with data_set_description:
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
 with data:
-    df = pd.read_csv('https://raw.githubusercontent.com/elmatiaaa/prosaindata/main/PTRO.JK.csv')
+    df = pd.read_csv('https://raw.githubusercontent.com/elmatiaaa/prosaindata/main/new.csv')
     st.dataframe(df)
 
 with preprocessing:
