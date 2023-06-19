@@ -34,7 +34,7 @@ with tab2:
             if st.button('Camera'):
                 
                 # Buat objek kamera
-                cap = cv2.VideoCapture(0)
+                cap = st.camera_input("Take a picture")
 
                 # Baca frame kamera secara berulang-ulang
                 while True:
