@@ -13,8 +13,6 @@ from sklearn.tree import DecisionTreeClassifier
 # import warnings
 # warnings.filterwarnings("ignore")
 
-
-st
 st.set_page_config(
     page_title="Project"
 )
