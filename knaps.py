@@ -37,20 +37,16 @@ with tab2:
                 cap = st.camera_input("Take a picture")
 
                 # Baca frame kamera secara berulang-ulang
-                while True:
-                    ret, frame = cap.read()
-
-                    # Ubah format frame menjadi RGB
-                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-                    # Tampilkan frame kamera di Streamlit
-                    st.image(frame, channels='RGB', use_column_width=True)
-
-                    # Jika tombol 'Stop' ditekan, hentikan kamera
-                    if not st.button('Stop'):
-                        break
-
-                # Hentikan kamera dan tutup window OpenCV
-                cap.release()
-                cv2.destroyAllWindows()
+              if cap is not None:
+                    # To read image file buffer with OpenCV:
+                    bytes_data = cap.getvalue()
+                    cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+                
+                    # Check the type of cv2_img:
+                    # Should output: <class 'numpy.ndarray'>
+                    st.write(type(cv2_img))
+                
+                    # Check the shape of cv2_img:
+                    # Should output shape: (height, width, channels)
+                    st.write(cv2_img.shape)
 
