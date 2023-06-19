@@ -26,13 +26,11 @@ data_set_description, data, preprocessing, modeling, implementation = st.tabs(["
 
 with data_set_description:
      st.subheader("Pada klasifikasi ini terbagi menjadi 4 kelas atau label yaitu :")
-    st.write("
-    <ol>
+    st.write("<ol>
         <li>Brown Spot : Penyakit bercak daun coklat pada tanaman padi yaitu Oryzae berwarna coklat, bersekat 6-17, berbentuk silindris, agak melengkung, dan bagian tengahnya agak melebar.</li>
         <li>Hispa: penyakit yang memiliki bercak putih besar akibat serangan serangga dewasa yang mengikis permukaan daun.</li>
         <li>Leaf Blast: penyakit yang memiliki bercak kuning pada bagian ujung, hingga berwarna kecoklatan dan juga kering pada tanaman.</li>
-        <li>Healthy : Memiliki warna hijau cerah, bentuk yang khas, permukaan yang halus, dan struktur pembuluh daun yang terlihat jelas.</li>
-    </ol>",unsafe_allow_html=True)
+        <li>Healthy : Memiliki warna hijau cerah, bentuk yang khas, permukaan yang halus, dan struktur pembuluh daun yang terlihat jelas.</li></ol>",unsafe_allow_html=True)
 
 with data:
     df = pd.read_csv('https://raw.githubusercontent.com/elmatiaaa/prosaindata/main/new.csv')
