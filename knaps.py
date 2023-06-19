@@ -14,51 +14,27 @@ from sklearn.tree import DecisionTreeClassifier
 # warnings.filterwarnings("ignore")
 
 
-st.title("Web Apps - Star Dataset to Predict Stars Types")
+st
+st.set_page_config(
+    page_title="Project"
+)
+st.title('Web-Apps Classification Of Rice Leaves')
 
 st.write("================================================================================")
 
-st.write("Name :Isnaini")
-st.write("Nim  :200411100038")
-st.write("Grade: Penambangan Data c")
+
 
 data_set_description, data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
 
 with data_set_description:
-    st.write("""# Data Set Description """)
-    st.write("###### Data Set Ini Adalah : Predict Star Types ")
-    st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/deepu1109/star-dataset")
-    st.write("""Dalam dataset ini terdapat 59 data dan 7 kolom yaitu Temperature_(K),Luminosity(L/Lo),Radius(R/Ro),Absolute_magnitude(Mv),Star_type,Star_Color,Spectral_Class. 
-    """)
-    st.write("""###### DATASET INFO : """)
-    st.write("""1. Ini adalah kumpulan data yang terdiri dari beberapa fitur bintang, diantaranya :  :
-    Absolute Temperature (in K)
-    Relative Luminosity (L/Lo)
-    Relative Radius (R/Ro)
-    Absolute Magnitude (Mv)
-    Star Color (white,Red,Blue,Yellow,yellow-orange etc)
-    Spectral Class (O,B,A,F,G,K,,M)
-    Star Type **(Red Dwarf, Brown Dwarf, White Dwarf, Main Sequence , SuperGiants, HyperGiants)**
-    Lo = 3.828 x 10^26 Watts (Avg Luminosity of Sun)
-    Ro = 6.9551 x 10^8 m (Avg Radius of Sun)
-    """)
-    st.write("""2.Spectral Class :
-    ini akan menjadi outputnya yaitu kelas scpectral.Dalam Aplikasi ini  akan emnghasilkan 7 prediksi  yaitu O,B,A,F,G,K,,M.
-    """)
-    st.write("""Memprediksi Spectral Class (output) :
-
-    1. O
-    2. B
-    3. A 
-    4. F
-    5.G
-    6.K
-    7.M
-    
-    """)
-    st.write("###### Aplikasi ini untuk : Star Dataset To Predict Star Types (Kumpulan Data Bintang Untuk Memprediksi Jenis Bintang) ")
-    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/135-ShintaNuriyatulMahmudiyah/PenambanganDataWeb ")
-    st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
+     st.subheader("Pada klasifikasi ini terbagi menjadi 4 kelas atau label yaitu :")
+    st.write("""
+    <ol>
+        <li>Brown Spot : Penyakit bercak daun coklat pada tanaman padi yaitu Oryzae berwarna coklat, bersekat 6-17, berbentuk silindris, agak melengkung, dan bagian tengahnya agak melebar.</li>
+        <li>Hispa: penyakit yang memiliki bercak putih besar akibat serangan serangga dewasa yang mengikis permukaan daun.</li>
+        <li>Leaf Blast: penyakit yang memiliki bercak kuning pada bagian ujung, hingga berwarna kecoklatan dan juga kering pada tanaman.</li>
+        <li>Healthy : Memiliki warna hijau cerah, bentuk yang khas, permukaan yang halus, dan struktur pembuluh daun yang terlihat jelas.</li>
+    </ol>""",unsafe_allow_html=True)
 
 with data:
     df = pd.read_csv('https://raw.githubusercontent.com/elmatiaaa/prosaindata/main/new.csv')
