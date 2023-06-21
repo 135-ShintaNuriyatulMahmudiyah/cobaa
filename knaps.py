@@ -1,6 +1,13 @@
 import streamlit as st
 from PIL import Image
 import cv2
+import numpy as np
+from keras.models import Sequential
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from keras.utils import to_categorical
+from keras.models import load_model
+from io import BytesIO
+
 
 st.set_page_config(
     page_title="Project"
@@ -19,6 +26,8 @@ with tab1:
         <li>Healthy : Memiliki warna hijau cerah, bentuk yang khas, permukaan yang halus, dan struktur pembuluh daun yang terlihat jelas.</li>
     </ol>""",unsafe_allow_html=True)
 with tab2:
+        model = load_model('cnn_model.h5')
+        classes =["_BrownSpot","_Hispa","_LeafBlast","_Healthy"]
         # Menu pilihan
         menu = st.selectbox("Capture Option :",["Upload Photo", "Camera"])
 
@@ -27,26 +36,43 @@ with tab2:
             if uploaded_file is not None:
                 image = Image.open(uploaded_file)
                 st.image(image, caption='Uploaded Photo', use_column_width=True)
-                # Lakukan pemrosesan gambar di sini (jika diperlukan)
+                # Mengubah gambar menjadi bentuk yang sesuai untuk prediksi
+                resized_image = image.resize((128, 128))
+                processed_image = np.array(resized_image) / 255.0
+                input_image = np.expand_dims(processed_image, axis=0)
+
+                # Melakukan prediksi menggunakan model atau tindakan lain
+                prediction = model.predict(input_image)
+                class_index = np.argmax(prediction[0])
+                class_name = classes[class_index]
+
+                # Menampilkan hasil prediksi
+                st.success(f"Hasil Prediksi: {class_name}")
 
         elif menu == "Camera":
             st.write("Click the camera button below.")
+
             if st.button('Camera'):
-                
-                # Buat objek kamera
-                cap = st.camera_input("Take a picture")
+                cap = cv2.VideoCapture(0)  # Menggunakan kamera utama
 
-                # Baca frame kamera secara berulang-ulang
-                if cap is not None:
-                        # To read image file buffer with OpenCV:
-                        bytes_data = cap.getvalue()
-                        cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-                    
-                        # Check the type of cv2_img:
-                        # Should output: <class 'numpy.ndarray'>
-                        st.write(type(cv2_img))
-                    
-                        # Check the shape of cv2_img:
-                        # Should output shape: (height, width, channels)
-                        st.write(cv2_img.shape)
+                ret, frame = cap.read()  # Membaca frame pertama dari kamera
 
+                if ret:
+                    st.image(frame, channels="BGR")
+
+                # Mengubah gambar menjadi bentuk yang sesuai untuk prediksi
+                img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                img = cv2.resize(img,(128, 128))
+                img = np.array(img) / 255.0
+                img = np.expand_dims(img, axis=0)
+
+                # Melakukan prediksi menggunakan model atau tindakan lain
+                prediction = model.predict(img)
+                class_index = np.argmax(prediction[0])
+                class_name = classes[class_index]
+
+                # Menampilkan hasil prediksi
+                st.success(f"Hasil Prediksi: {class_name}")
+
+                # Menampilkan gambar hasil prediksi
+                st.image(img[0], channels="RGB", caption='Predicted Image', use_column_width=True)
