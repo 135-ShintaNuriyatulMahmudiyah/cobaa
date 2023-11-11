@@ -100,7 +100,7 @@ with preprocessing:
     """)
 
     #Mendefinisikan Varible X dan Y
-    X = df[["mass","width","height","color_score"]]
+    X = df[["lokasi","ulasan","sentimen"]]
     y = df["fruit_name"].values
     df
     X
