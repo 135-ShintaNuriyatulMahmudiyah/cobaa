@@ -33,7 +33,7 @@ st.write("""# Data Set Description """)
 
 dataset=st.sidebar.selectbox(
         'pilih dataset',
-        ('Bukit Jaddih', 'Air Terjun Toroan', 'Gili Labak, Data Wisata')
+        ('Bukit Jaddih', 'Air Terjun Toroan', 'Gili Labak', 'Data Wisata')
 )
 
 
