@@ -28,15 +28,26 @@ st.write("======================================================================
 #st.write("Name :Shinta Nuriyatul Mahmudiyah")
 #st.write("Nim  :200411100135")
 #st.write("Grade: Penambangan Data A")
-st.write("""# Data Set Description """)
+st.write("""### Data Set Description """)
 
 
 dataset=st.sidebar.selectbox(
         'pilih dataset',
-        ('Bukit Jaddih', 'Air Terjun Toroan', 'Gili Labak', 'Data Wisata')
+        ('Bukit Jaddih', 'Air Terjun Toroan', 'Gili Labak', 'Data 3 Wisata di Pulau Madura')
 )
-st.write(f"## Dataset {dataset}")
+st.write(f"### Dataset {dataset}")
 
+seleksi_fitur=st.sidebar.selectbox(
+        'pilih seleksi fitur',
+        ('Chi-Squere')
+)
+st.write(f"### Seleksi fitur {seleksi_fitur}")
+
+algoritma=st.sidebar.selectbox(
+        'pilih algoritma',
+        ('Logistic Regression')
+)
+st.write(f"### Algoritma {algoritma}")
 
 data_set_description, data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
 
