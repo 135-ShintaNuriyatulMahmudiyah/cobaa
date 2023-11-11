@@ -17,16 +17,26 @@ from sklearn.metrics import confusion_matrix
 # warnings.filterwarnings("ignore")
 
 
-st.title("Aplikasi Web Analisis Sentimen")
+st.title("Sentiment Analysis - Web Apps")
 st.write("""
 #### Analisis Sentimen Ulasan Wisata di Pulau Madura Menggunakan Logistic Regression dan Seleksi fitur Chi-Squere
+Berapa Nilai Akurasi yang dihasilkan?
 """)
 
 st.write("================================================================================")
 
-st.write("Name :Shinta Nuriyatul Mahmudiyah")
-st.write("Nim  :200411100135")
-st.write("Grade: Penambangan Data A")
+#st.write("Name :Shinta Nuriyatul Mahmudiyah")
+#st.write("Nim  :200411100135")
+#st.write("Grade: Penambangan Data A")
+st.write("""# Data Set Description """)
+
+
+dataset=st.sidebar.selectbox('
+        pilih dataset',
+        (Bukit Jaddih, Air Terjun Toroan, Gili Labak, Data Wisata)
+)
+
+
 
 data_set_description, data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
 
