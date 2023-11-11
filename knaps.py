@@ -41,13 +41,13 @@ seleksi_fitur=st.sidebar.selectbox(
         'pilih seleksi fitur',
         ('Chi-Squere')
 )
-st.write(f"### Seleksi fitur {seleksi_fitur}")
+
 
 algoritma=st.sidebar.selectbox(
         'pilih algoritma',
         ('Logistic Regression')
 )
-st.write(f"### Algoritma {algoritma}")
+
 
 data_set_description, data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
 
