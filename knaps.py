@@ -10,7 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.metrics import confusion_matrix
-import seaborn as sns
+#import seaborn as sns
 
 # import warnings
 # warnings.filterwarnings("ignore")
