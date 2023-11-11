@@ -1,78 +1,245 @@
-import streamlit as st
-from PIL import Image
-import cv2
+import pandas as pd
 import numpy as np
-from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
-from keras.utils import to_categorical
-from keras.models import load_model
-from io import BytesIO
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import LabelEncoder
+from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+
+# import warnings
+# warnings.filterwarnings("ignore")
 
 
-st.set_page_config(
-    page_title="Project"
-)
-st.title('Classification Of Rice Leaves')
+st.title("Web Apps - Analisis Sentimen")
 
-tab1, tab2 = st.tabs(["Information", "Test Image"])
+st.write("================================================================================")
 
-with tab1:
-    st.subheader("Pada klasifikasi ini terbagi menjadi 4 kelas atau label yaitu :")
-    st.write("""
-    <ol>
-        <li>Brown Spot : Penyakit bercak daun coklat pada tanaman padi yaitu Oryzae berwarna coklat, bersekat 6-17, berbentuk silindris, agak melengkung, dan bagian tengahnya agak melebar.</li>
-        <li>Hispa: penyakit yang memiliki bercak putih besar akibat serangan serangga dewasa yang mengikis permukaan daun.</li>
-        <li>Leaf Blast: penyakit yang memiliki bercak kuning pada bagian ujung, hingga berwarna kecoklatan dan juga kering pada tanaman.</li>
-        <li>Healthy : Memiliki warna hijau cerah, bentuk yang khas, permukaan yang halus, dan struktur pembuluh daun yang terlihat jelas.</li>
-    </ol>""",unsafe_allow_html=True)
-with tab2:
-        model = load_model('cnn_model.h5')
-        classes =["_BrownSpot","_Hispa","_LeafBlast","_Healthy"]
-        # Menu pilihan
-        menu = st.selectbox("Capture Option :",["Upload Photo", "Camera"])
+st.write("Name :Shinta Nuriyatul Mahmudiyah")
+st.write("Nim  :200411100135")
+st.write("Grade: Penambangan Data A")
 
-        if menu == "Upload Photo":
-            uploaded_file = st.file_uploader("Select photo", type=['png', 'jpg', 'jpeg'])
-            if uploaded_file is not None:
-                image = Image.open(uploaded_file)
-                st.image(image, caption='Uploaded Photo', use_column_width=True)
-                # Mengubah gambar menjadi bentuk yang sesuai untuk prediksi
-                resized_image = image.resize((128, 128))
-                processed_image = np.array(resized_image) / 255.0
-                input_image = np.expand_dims(processed_image, axis=0)
+data_set_description, data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
 
-                # Melakukan prediksi menggunakan model atau tindakan lain
-                prediction = model.predict(input_image)
-                class_index = np.argmax(prediction[0])
-                class_name = classes[class_index]
+with data_set_description:
+    st.write("""# Data Set Description """)
+    st.write("###### Data Set Ini Adalah : Fruit with Color ")
+    st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/mjamilmoughal/fruits-with-colors-dataset")
+    st.write("""Dalam dataset ini terdapat 59 data dan 7 kolom yaitu fruit label, fruit name, fruit subtype, mass width, height, dan color score. Untuk
+     dataset ini mempunyai 4 kelas yaitu Apple, Mandarin, Orange, dan Lemon. 
+   
+    """)
+    st.write("""###### Penjelasan setiap kolom : """)
+    st.write("""1. Fruit Label (Label Buah) :
+    Label Buah ini merupakan pengganti nama buah. Berikur penjelasan:
+    1. Apel
+    2. Mandarin
+    3. Orange
+    4. Lemon
+   
+    """)
+    st.write("""2. Fruit Name (Nama Buah) :
+    ini akan menjadi outputnya yaitu nama buah.Dalam Aplikasi ini akan nama buah yang akan diprediksi ada 4 yaitu Apple, Orange, Mandarin, dan Lemon.
+   
+    """)
+    
+    st.write("""3. Fruit Subtype (Tipe Buah) :
+    Ini merupakan tipe buah. untuk buah apel, mandarin, orange, dan lemon mempunyai tipe buah yang berbeda- beda. 
+   
+    """)
+    st.write("""4. Mass (Massa Buah) :
+    setiap buah mempunyai berat dengan satuan gram. setiap buah juga mempunyai massa buah yang berbeda - beda.
+    
+    """)
+    st.write("""5. Width (Lebar Buah):
+    setiap buah mempunyai lebar buah yang berbeda - beda.
+    
+    """)
+    st.write("""6. Height (Tinggi Buah):
+    setiap buah mempunyai tinggi buah yang berbeda - beda.
+    
+    """)
+    st.write("""7. Color_Score (Skor Warna) :
+    setiap buah mempunyai skor warna  yang berbeda - beda.
+    
+    """)
+    st.write("""Dari inputan Massa, Width, Height, dan Color_Score itu akan menghasilkan output nama buah
+    
+    """)
+    
+    st.write("""Memprediksi Nama Buah (output) :
 
-                # Menampilkan hasil prediksi
-                st.success(f"Hasil Prediksi: {class_name}")
+    1. Apple 
+    2. Mandarin 
+    3. Orange 
+    4. Lemon 
+    """)
+    st.write("###### Aplikasi ini untuk : Fruit  Prediction (Prediksi buah) ")
+    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/135-ShintaNuriyatulMahmudiyah/PenambanganDataWeb ")
+    st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
-        elif menu == "Camera":
-            st.write("Click the camera button below.")
+with data:
+    df = pd.read_table('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/data_baru.xlxs')
+    st.dataframe(df)
 
-            if st.button('Camera'):
-                cap = cv2.VideoCapture(0)  # Menggunakan kamera utama
+with preprocessing:
+    st.subheader("""Normalisasi Data""")
+    st.write("""Rumus Normalisasi Data :""")
+    st.image('https://i.stack.imgur.com/EuitP.png', use_column_width=False, width=250)
+    st.markdown("""
+    Dimana :
+    - X = data yang akan dinormalisasi atau data asli
+    - min = nilai minimum semua data asli
+    - max = nilai maksimum semua data asli
+    """)
+    df = df.drop(columns=['fruit_label','fruit_subtype'])
+    #Mendefinisikan Varible X dan Y
+    X = df[["mass","width","height","color_score"]]
+    y = df["fruit_name"].values
+    df
+    X
+    df_min = X.min()
+    df_max = X.max()
+    
+    #NORMALISASI NILAI X
+    scaler = MinMaxScaler()
+    #scaler.fit(features)
+    #scaler.transform(features)
+    scaled = scaler.fit_transform(X)
+    features_names = X.columns.copy()
+    #features_names.remove('label')
+    scaled_features = pd.DataFrame(scaled, columns=features_names)
 
-                ret, frame = cap.read()  # Membaca frame pertama dari kamera
+    st.subheader('Hasil Normalisasi Data')
+    st.write(scaled_features)
 
-                if ret:
-                    st.image(frame, channels="BGR")
+    st.subheader('Target Label')
+    dumies = pd.get_dummies(df.fruit_name).columns.values.tolist()
+    dumies = np.array(dumies)
 
-                # Mengubah gambar menjadi bentuk yang sesuai untuk prediksi
-                img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                img = cv2.resize(img,(128, 128))
-                img = np.array(img) / 255.0
-                img = np.expand_dims(img, axis=0)
+    labels = pd.DataFrame({
+        '1' : [dumies[0]],
+        '2' : [dumies[1]],
+        '3' : [dumies[2]],
+        '4' : [dumies[3]],
+        
+    })
 
-                # Melakukan prediksi menggunakan model atau tindakan lain
-                prediction = model.predict(img)
-                class_index = np.argmax(prediction[0])
-                class_name = classes[class_index]
+    st.write(labels)
 
-                # Menampilkan hasil prediksi
-                st.success(f"Hasil Prediksi: {class_name}")
+   
+with modeling:
+    training, test = train_test_split(scaled_features,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing
+    training_label, test_label = train_test_split(y, test_size=0.2, random_state=1)#Nilai Y training dan Nilai Y testing
+    with st.form("modeling"):
+        st.subheader('Modeling')
+        st.write("Pilihlah model yang akan dilakukan pengecekkan akurasi:")
+        naive = st.checkbox('Gaussian Naive Bayes')
+        k_nn = st.checkbox('K-Nearest Neighboor')
+        destree = st.checkbox('Decission Tree')
+        submitted = st.form_submit_button("Submit")
 
-                # Menampilkan gambar hasil prediksi
-                st.image(img[0], channels="RGB", caption='Predicted Image', use_column_width=True)
+        # NB
+        GaussianNB(priors=None)
+
+        # Fitting Naive Bayes Classification to the Training set with linear kernel
+        gaussian = GaussianNB()
+        gaussian = gaussian.fit(training, training_label)
+
+        # Predicting the Test set results
+        y_pred = gaussian.predict(test)
+    
+        y_compare = np.vstack((test_label,y_pred)).T
+        gaussian.predict_proba(test)
+        gaussian_akurasi = round(100 * accuracy_score(test_label, y_pred))
+        # akurasi = 10
+
+        
+
+        #KNN
+        K=10
+        knn=KNeighborsClassifier(n_neighbors=K)
+        knn.fit(training,training_label)
+        knn_predict=knn.predict(test)
+
+        knn_akurasi = round(100 * accuracy_score(test_label,knn_predict))
+
+        #Decission Tree
+        dt = DecisionTreeClassifier()
+        dt.fit(training, training_label)
+        # prediction
+        dt_pred = dt.predict(test)
+        #Accuracy
+        dt_akurasi = round(100 * accuracy_score(test_label,dt_pred))
+
+        if submitted :
+            if naive :
+                st.write('Model Naive Bayes accuracy score: {0:0.2f}'. format(gaussian_akurasi))
+            if k_nn :
+                st.write("Model KNN accuracy score : {0:0.2f}" . format(knn_akurasi))
+            if destree :
+                st.write("Model Decision Tree accuracy score : {0:0.2f}" . format(dt_akurasi))
+        
+        grafik = st.form_submit_button("Grafik akurasi semua model")
+        if grafik:
+            data = pd.DataFrame({
+                'Akurasi' : [gaussian_akurasi, knn_akurasi, dt_akurasi],
+                'Model' : ['Gaussian Naive Bayes', 'K-NN', 'Decission Tree'],
+            })
+
+            chart = (
+                alt.Chart(data)
+                .mark_bar()
+                .encode(
+                    alt.X("Akurasi"),
+                    alt.Y("Model"),
+                    alt.Color("Akurasi"),
+                    alt.Tooltip(["Akurasi", "Model"]),
+                )
+                .interactive()
+            )
+            st.altair_chart(chart,use_container_width=True)
+  
+with implementation:
+    with st.form("my_form"):
+        st.subheader("Implementasi")
+        mass = st.number_input('Masukkan berat buah (mass) : ')
+        width = st.number_input('Masukkan lebar buah (width) : ')
+        height = st.number_input('Masukkan tinggi buah (height) : ')
+        color_score = st.number_input('Masukkan skor warna (color_score) : ')
+        model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
+                ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
+
+        prediksi = st.form_submit_button("Submit")
+        if prediksi:
+            inputs = np.array([
+                mass,
+                width,
+                height,
+                color_score
+            ])
+
+            df_min = X.min()
+            df_max = X.max()
+            input_norm = ((inputs - df_min) / (df_max - df_min))
+            input_norm = np.array(input_norm).reshape(1, -1)
+
+            if model == 'Gaussian Naive Bayes':
+                mod = gaussian
+            if model == 'K-NN':
+                mod = knn 
+            if model == 'Decision Tree':
+                mod = dt
+
+            input_pred = mod.predict(input_norm)
+
+
+            st.subheader('Hasil Prediksi')
+            st.write('Menggunakan Pemodelan :', model)
+
+            st.write(input_pred)
