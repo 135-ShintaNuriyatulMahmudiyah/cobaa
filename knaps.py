@@ -42,7 +42,7 @@ seleksi_fitur=st.sidebar.selectbox('seleksi fitur',
 )
 
 
-algoritma=st.sidebar.selectbox(
+algoritma=st.sidebar.radio(
         'pilih algoritma',
         ('Logistic Regression')
 )
