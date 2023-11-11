@@ -37,8 +37,8 @@ dataset=st.sidebar.selectbox(
 )
 st.write(f"### Dataset {dataset}")
 
-seleksi_fitur=st.sidebar.selectbox(
-        'Chi-Squere'
+seleksi_fitur=st.sidebar.selectbox('seleksi fitur',
+        ('Chi-Squere')
 )
 
 
