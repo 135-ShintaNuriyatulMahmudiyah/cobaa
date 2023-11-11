@@ -17,7 +17,9 @@ from sklearn.metrics import confusion_matrix
 # warnings.filterwarnings("ignore")
 
 
-st.title("Web Apps - Analisis Sentimen")
+st.title("Aplikasi Web Analisis Sentimen")
+st.write("""Analisis Sentimen Ulasan Wisata di Pulau Madura Menggunakan Logistic Regression dan Seleksi fitur Chi-Squere
+""")
 
 st.write("================================================================================")
 
