@@ -86,5 +86,5 @@ with data_set_description:
 
 with data:
     df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/data_baru.csv', sep='\t')
-    st.dataframe(df)
+    st.table(df)
 
