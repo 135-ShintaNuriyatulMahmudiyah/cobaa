@@ -35,7 +35,7 @@ dataset=st.sidebar.selectbox(
         'pilih dataset',
         ('Bukit Jaddih', 'Air Terjun Toroan', 'Gili Labak', 'Data Wisata')
 )
-
+st.write(f"## Dataset {dataset}")
 
 
 data_set_description, data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
