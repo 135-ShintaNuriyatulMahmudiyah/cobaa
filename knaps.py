@@ -85,7 +85,7 @@ with data_set_description:
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
 
 with data:
-    df = pd.read_excel('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/data_baru.xlxs',sep='\t')
+    df = pd.read_excel('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/data_baru.xlxs')
     st.write(df.head())
 
 with preprocessing:
