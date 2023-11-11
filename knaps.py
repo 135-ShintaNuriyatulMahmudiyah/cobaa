@@ -86,7 +86,7 @@ with data_set_description:
 
 with data:
     df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/data_baru.csv',encoding='utf-8')
-    st.(df.head()
+    st.(df.head())
 
 with preprocessing:
     st.subheader("""Normalisasi Data""")
