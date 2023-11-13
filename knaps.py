@@ -102,7 +102,7 @@ with data:
 with preprocessing:
     df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
     if df is not None:
-        df= Analyzer(df)
+        #df= Analyzer(df)
         st.subheader('Pre-Processing text data')
         with st.spinner('With text processing in Progress....'):
             with st.expander("Expand for details"):
