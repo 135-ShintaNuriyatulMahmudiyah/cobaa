@@ -7,7 +7,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 # Load your dataset (replace 'your_dataset.csv' with your actual dataset)
-df = pd.read_csv('your_dataset.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
 
 # Streamlit app
 st.title('Sentiment Analysis with Logistic Regression')
