@@ -9,8 +9,8 @@ Original file is located at
 
 import pandas as pd
 
-data = pd.read_csv("data fix.csv")
-data
+data = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
+st.dataframe(data)
 
 """## Preprocessing Tweet "Vaksin COVID"
 
@@ -30,40 +30,40 @@ nltk.download('stopwords')
 """#### 1. Remove Regex (Cleansing)"""
 
 # Menghilangkan kalimat Encode
-data['Komen'].replace(to_replace = r'\\x[0-9a-fA-F][0-9a-fA-F]', value = '', regex = True, inplace = True)
+data['ulasan'].replace(to_replace = r'\\x[0-9a-fA-F][0-9a-fA-F]', value = '', regex = True, inplace = True)
 data
-def hello (Komen):
+def hello (ulasan):
     print("hello world")
 
-def remove(Komen):
+def remove(ulasan):
     # remove stock market tickers like $GE
-    Komen = re.sub(r'\$\w*', '',str(Komen ))
+    ulasan = re.sub(r'\$\w*', '',str(ulasan ))
     # Remove RT/b/ yang tersisa
-    Komen = re.sub(r'\bRT\b', '', Komen)
-    Komen  = re.sub('b\'', '', Komen)    
+    ulasan = re.sub(r'\bRT\b', '', ulasan)
+    ulasan  = re.sub('b\'', '', ulasan)    
     # Replace 2+ dots with space
-    Komen = re.sub(r'\.{2,}', ' ', Komen)
+    ulasan = re.sub(r'\.{2,}', ' ', ulasan)
     #remove @username
-    Komen = re.sub('@[^\s]+','',Komen)
+    ulasan = re.sub('@[^\s]+','',ulasan)
      # remove old style retweet text "RT"
-    Komen = re.sub(r'^RT[\s]+', '', Komen)
+    ulasan = re.sub(r'^RT[\s]+', '', ulasan)
     #remove angka
-    Komen = re.sub('[0-9]+', '', Komen)
+    ulasan = re.sub('[0-9]+', '', ulasan)
     #remove url
-    Komen = re.sub(r"http\S+", "", Komen)
+    ulasan = re.sub(r"http\S+", "", ulasan)
     # remove hashtags
-    Komen = re.sub(r'#\w*', '', Komen)
+    ulasan = re.sub(r'#\w*', '', ulasan)
     # Strip space, " and ' from tweet
-    Komen = Komen.strip(' "\'')
+    ulasan = ulasan.strip(' "\'')
     # Replace multiple spaces with a single space
-    Komen = re.sub(r'\s+', ' ', Komen)
+    ulasan = re.sub(r'\s+', ' ', ulasan)
     #hapus tanda baca
-    Komen = Komen.translate(str.maketrans("","",string.punctuation))
+    ulasan = ulasan.translate(str.maketrans("","",string.punctuation))
     #hapus karakter
-    Komen = re.sub(r'\n', '', Komen)
+    ulasan = re.sub(r'\n', '', ulasan)
 
-    return Komen 
-data['clean'] = data['Komen'].apply(lambda x: remove(x))
+    return ulasan 
+data['clean'] = data['ulasan'].apply(lambda x: remove(x))
  
 data
 
@@ -151,7 +151,7 @@ data
 data.to_csv('afterpreprocessing.csv', index=False)
 
 # Seleksi Data
-data_final = data.loc[:, ['Date', 'Username', 'Komen','Label', 'clean', 'case_folding', 'Tokenizing', 'Stopword', 'Hasil']]
+data_final = data.loc[:, ['Date', 'Username', 'ulasan','Label', 'clean', 'case_folding', 'Tokenizing', 'Stopword', 'Hasil']]
 
 data_final
 
