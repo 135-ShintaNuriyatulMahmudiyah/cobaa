@@ -27,7 +27,7 @@ st.subheader('Preprocessed Dataset:')
 st.write(df[['clean_ulasan', 'ulasan']].head())
 
 # Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(df['clean_ulasan'], df['sentiment'], test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(df['clean_ulasan'], df['ulasan'], test_size=0.2, random_state=42)
 
 # Logistic Regression Model
 st.header('Logistic Regression Model')
