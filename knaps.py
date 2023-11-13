@@ -4,9 +4,9 @@ import numpy as np
 import string
 #import nltk
 import re
-from wordcloud import WordCloud
+#from wordcloud import WordCloud
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from nltk.corpus import stopwords
+#from nltk.corpus import stopwords
 #import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
