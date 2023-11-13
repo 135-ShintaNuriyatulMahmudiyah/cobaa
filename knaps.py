@@ -31,23 +31,6 @@ st.write("======================================================================
 st.write("""### Data Set Description """)
 
 
-dataset=st.sidebar.selectbox(
-        'pilih dataset',
-        ('Bukit Jaddih', 'Air Terjun Toroan', 'Gili Labak', 'Data 3 Wisata di Pulau Madura')
-)
-st.write(f"### Dataset {dataset}")
-
-seleksi_fitur=st.sidebar.selectbox('seleksi fitur',
-        ('Chi-Squere', 'Tanpa seleksi fitur')
-)
-
-
-algoritma=st.sidebar.selectbox(
-        'pilih algoritma',
-        ('Logistic Regression','-')
-)
-
-
 data_set_description, data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
 
 with data_set_description:
