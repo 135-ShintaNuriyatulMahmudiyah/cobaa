@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import string
-import nltk
+#import nltk
 import re
 #from wordcloud import WordCloud
 #from nltk.sentiment.vader import SentimentIntensityAnalyzer
