@@ -100,6 +100,7 @@ with data:
     df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
     st.dataframe(df)
 with preprocessing:
+    df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
     if df is not None:
         df= Analyzer(df)
         st.subheader('Pre-Processing text data')
