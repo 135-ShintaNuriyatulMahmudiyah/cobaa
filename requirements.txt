@@ -6,3 +6,4 @@ opencv-python==4.7.0.72
 matplotlib==3.8.1
 nltk==3.8.1
 wordcloud==1.7.0
+streamlit_folium==0.11.1
