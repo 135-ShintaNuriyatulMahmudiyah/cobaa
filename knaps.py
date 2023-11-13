@@ -104,18 +104,18 @@ with preprocessing:
         df= Analyzer(df)
         st.subheader('Pre-Processing text data')
         with st.spinner('With text processing in Progress....'):
-        with st.expander("Expand for details"):
-            st.subheader('Drop duplicate raws & lower casing all text')
-            df=df.drop_duplicates(inplace=True)
-            #mengubah semua huruf ke dalam huruf kecil (lower text)
-            df['clean_ulasan']=df['ulasan'].str.lower()
-            st.table(df[['clean_ulasan','ulasan']].head(5))
-
-            st.subheader('Drop duplicate raws & lower casing all text')
-            df=df.drop_duplicates(inplace=True)
-            #mengubah semua huruf ke dalam huruf kecil (lower text)
-            df['clean_ulasan']=df['ulasan'].str.lower()
-            st.table(df[['clean_ulasan','ulasan']].head(5))
+            with st.expander("Expand for details"):
+                st.subheader('Drop duplicate raws & lower casing all text')
+                df=df.drop_duplicates(inplace=True)
+                #mengubah semua huruf ke dalam huruf kecil (lower text)
+                df['clean_ulasan']=df['ulasan'].str.lower()
+                st.table(df[['clean_ulasan','ulasan']].head(5))
+    
+                st.subheader('Drop duplicate raws & lower casing all text')
+                df=df.drop_duplicates(inplace=True)
+                #mengubah semua huruf ke dalam huruf kecil (lower text)
+                df['clean_ulasan']=df['ulasan'].str.lower()
+                st.table(df[['clean_ulasan','ulasan']].head(5))
 
                                 
 
