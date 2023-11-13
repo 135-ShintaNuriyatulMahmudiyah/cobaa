@@ -100,19 +100,20 @@ with data:
     df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
     st.dataframe(df)
 with preprocessing:
-    df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
+    df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv', sep='\t')
     if df is not None:
-        #df= Analyzer(df)
         st.subheader('Pre-Processing text data')
-        with st.spinner('With text processing in Progress....'):
-            with st.expander("Expand for details"):
-                st.subheader('Drop duplicate raws & lower casing all text')
-                df=df.drop_duplicates(inplace=True)
-                #mengubah semua huruf ke dalam huruf kecil (lower text)
-                df['clean_ulasan'] = df['ulasan'].apply(lambda x: x.lower() if x is not None else x)
-                st.table(df[['clean_ulasan','ulasan']].head(5))
-    
-                                
+        
+        # Drop duplicate rows
+        df.drop_duplicates(inplace=True)
+        
+        # Lowercase all text
+        df['clean_ulasan'] = df['ulasan'].apply(lambda x: x.lower() if isinstance(x, str) else x)
+        
+        # Display the preprocessed data
+        with st.expander("Expand for details"):
+            st.subheader('Preprocessed Data')
+            st.table(df[['clean_ulasan', 'ulasan']].head(5))
 
 
 
