@@ -100,23 +100,65 @@ with data:
     df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
     st.dataframe(df)
 with preprocessing:
-    df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv', sep='\t')
-    if df is not None:
-        st.subheader('Pre-Processing text data')
-        
-        # Drop duplicate rows
-        df.drop_duplicates(inplace=True)
-        
-        # Lowercase all text
-        df['clean_ulasan'] = df['ulasan'].apply(lambda x: x.lower() if isinstance(x, str) else x)
-        
-        # Display the preprocessed data
-        with st.expander("Expand for details"):
-            st.subheader('Preprocessed Data')
-            st.table(df[['clean_ulasan', 'ulasan']].head(5))
+    data = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv', sep='\t')
 
+    ### Preprocessing Data
+    
+    # Import Library
+    import re
+    import nltk
+    import string
+    #NLTK
+    from nltk.tokenize import sent_tokenize, word_tokenize
+    from nltk.corpus import stopwords
+    
+    nltk.download('stopwords')
+    
+    """#### 1. Remove Regex (Cleansing)"""
+    
+    # Menghilangkan kalimat Encode
+    data['ulasan'].replace(to_replace = r'\\x[0-9a-fA-F][0-9a-fA-F]', value = '', regex = True, inplace = True)
+    data
+    def hello (ulasan):
+        print("hello world")
+    
+    def remove(ulasan):
+        # remove stock market tickers like $GE
+        ulasan = re.sub(r'\$\w*', '',str(ulasan ))
+        # Remove RT/b/ yang tersisa
+        ulasan = re.sub(r'\bRT\b', '', ulasan)
+        ulasan  = re.sub('b\'', '', ulasan)    
+        # Replace 2+ dots with space
+        ulasan = re.sub(r'\.{2,}', ' ', ulasan)
+        #remove @username
+        ulasan = re.sub('@[^\s]+','',ulasan)
+         # remove old style retweet text "RT"
+        ulasan = re.sub(r'^RT[\s]+', '', ulasan)
+        #remove angka
+        ulasan = re.sub('[0-9]+', '', ulasan)
+        #remove url
+        ulasan = re.sub(r"http\S+", "", ulasan)
+        # remove hashtags
+        ulasan = re.sub(r'#\w*', '', ulasan)
+        # Strip space, " and ' from tweet
+        ulasan = ulasan.strip(' "\'')
+        # Replace multiple spaces with a single space
+        ulasan = re.sub(r'\s+', ' ', ulasan)
+        #hapus tanda baca
+        ulasan = ulasan.translate(str.maketrans("","",string.punctuation))
+        #hapus karakter
+        ulasan = re.sub(r'\n', '', ulasan)
+    
+        return ulasan 
+    data['clean'] = data['ulasan'].apply(lambda x: remove(x))
+     
+data
 
+"""#### 2. Case Folding"""
 
+# proses case folding 
+data['case_folding'] = data['clean'].str.lower()
+data
 
 
 
