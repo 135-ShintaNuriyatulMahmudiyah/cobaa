@@ -5,7 +5,7 @@ import string
 #import nltk
 import re
 #from wordcloud import WordCloud
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+#from nltk.sentiment.vader import SentimentIntensityAnalyzer
 #from nltk.corpus import stopwords
 #import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -100,8 +100,6 @@ with data:
     df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/data_baru.csv',sep='\t')
     st.dataframe(df)
 with preprocessing:
-        if df is not None:
-                df=Analyzer(df)
                 st.subheader('Pre-Processing text data')
                 with st.spinner('With text processing in Progress....'):
                         with st.expander("Expand for details"):
