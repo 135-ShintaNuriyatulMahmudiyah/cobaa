@@ -109,7 +109,7 @@ with preprocessing:
                 st.subheader('Drop duplicate raws & lower casing all text')
                 df=df.drop_duplicates(inplace=True)
                 #mengubah semua huruf ke dalam huruf kecil (lower text)
-                df['clean_ulasan']=df['ulasan'].str.lower()
+                df['clean_ulasan'] = df['ulasan'].apply(lambda x: x.lower() if x is not None else x)
                 st.table(df[['clean_ulasan','ulasan']].head(5))
     
                                 
