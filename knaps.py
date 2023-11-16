@@ -114,7 +114,7 @@ with preprocessing:
       text = clean_symbol.sub(' ', text)
       return text
    # Buat kolom tambahan untuk data description yang telah diremovepunctuation   
-    preprocessing = data['Text'].apply(clean_punct)
+    preprocessing = data['ulasan'].apply(clean_punct)
     clean=pd.DataFrame(preprocessing)
     "### Melakukan Cleaning "
     clean
@@ -123,7 +123,7 @@ with preprocessing:
       lwr = lwr.lower() # lowercase text
       return lwr
    # Buat kolom tambahan untuk data description yang telah dicasefolding  
-    clean = clean['Text'].apply(clean_lower)
+    clean = clean['ulasan'].apply(clean_lower)
     casefolding=pd.DataFrame(clean)
     "### Melakukan Casefolding "
     casefolding
@@ -186,7 +186,7 @@ with preprocessing:
       for i in range(len(stemming)):
          joinkata = ' '.join(stemming[i])
          join.append(joinkata)
-      hasilpreproses = pd.DataFrame(join, columns=['Text'])
+      hasilpreproses = pd.DataFrame(join, columns=['ulasan'])
       hasilpreproses.to_csv('hasilpreproses.csv')
       return hasilpreproses
 
@@ -195,7 +195,7 @@ with preprocessing:
 
     st.title("""TF-IDF""")
     tr_idf_model  = TfidfVectorizer()
-    tf_idf_vector = tr_idf_model.fit_transform(hasilpreproses['Text'])
+    tf_idf_vector = tr_idf_model.fit_transform(hasilpreproses['ulasan'])
     tf_idf_array = tf_idf_vector.toarray()
     words_set = tr_idf_model.get_feature_names_out()
     df_tf_idf = pd.DataFrame(tf_idf_array, columns = words_set)
