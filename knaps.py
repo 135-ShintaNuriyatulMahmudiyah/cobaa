@@ -1,140 +1,89 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
+from sklearn import svm
 from nltk.corpus import stopwords
 import re
 import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer
+from nltk.tokenize import sent_tokenize, word_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import LabelEncoder
-from sklearn.feature_selection import SelectKBest, chi2
-from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
-from sklearn.metrics import confusion_matrix
-#import seaborn as sns
-
-# import warnings
-# warnings.filterwarnings("ignore")
+import pickle
 
 
-st.title("Sentiment Analysis - Web Apps")
-st.write("""
-#### Analisis Sentimen Ulasan Wisata di Pulau Madura Menggunakan Logistic Regression dan Seleksi fitur Chi-Squere
-Berapa Nilai Akurasi yang dihasilkan?
-""")
+Home, Learn, Proses, Model, Implementasi = st.tabs(['Home', 'Learn Data', 'Preprocessing dan TF-IDF', 'Model', 'Implementasi'])
 
-st.write("================================================================================")
+with Home:
+   st.title("""SENTIMEN ANALISIS RESESI 2023""")
+   st.subheader('Kelompok 2')
+   st.text("""
+            1. Nuskhatul Haqqi 200411100034
+            2. Zuni Amanda Dewi 200411100051
+            3. Abd. Hanif Azhari 200411100101""")
 
-#st.write("Name :Shinta Nuriyatul Mahmudiyah")
-#st.write("Nim  :200411100135")
-#st.write("Grade: Penambangan Data A")
-st.write("""### Data Set Description """)
+with Learn:
+   st.title("""Sentiment Analisis Resesi 2023""")
+   st.write('Resesi dunia adalah kondisi ketika perekonomian sebagian besar negara sedang memburuk seiring menurunnya aktivitas di sektor perdagangan dan industri. Beberapa waktu lalu, menteri keuangan Sri Mulyani memproyeksikan dunia akan memasuki resesi pada tahun 2023.')
+   st.write('Dalam Klasifikasi ini data yang digunakan adalah ulasan atau komentar dari aplikasi Twitter dengan topik Resesi 2023.')
+   st.title('Klasifikasi data inputan berupa : ')
+   st.write('1. text : data komentar atau ulasan yang diambil dari twitter')
+   st.write('2. Label: kelas keluaran [1: positif, -1: Negatif]')
+
+   st.title("""Asal Data""")
+   st.write("Dataset yang digunakan adalah data hasil crowling twitter dengan kata kunci 'Resesi Ekonomi 2023' yang disimpan di https://raw.githubusercontent.com/nuskhatulhaqqi/data_mining/main/resesi_2023%20(1).csv")
+   st.write("Total datanya adalah 132 dengan atribut 2")
+   # uploaded_files = st.file_uploader("Upload file CSV", accept_multiple_files=True)
+   # if uploaded_files is not None :
+   data = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
+   # else:
+   #    for uploaded_file in uploaded_files:
+   #       data = pd.read_csv(uploaded_file)
+   #       st.write("Nama File Anda = ", uploaded_file.name)
+   #       st.dataframe(data)
+      
 
 
-data_set_description, data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Data", "Preprocessing", "Modeling", "Implementation"])
-
-with data_set_description:
-    st.write("""# Data Set Description """)
-    st.write("###### Data Set Ini Adalah : Fruit with Color ")
-    st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/mjamilmoughal/fruits-with-colors-dataset")
-    st.write("""Dalam dataset ini terdapat 59 data dan 7 kolom yaitu fruit label, fruit name, fruit subtype, mass width, height, dan color score. Untuk
-     dataset ini mempunyai 4 kelas yaitu Apple, Mandarin, Orange, dan Lemon. 
-   
-    """)
-    st.write("""###### Penjelasan setiap kolom : """)
-    st.write("""1. Fruit Label (Label Buah) :
-    Label Buah ini merupakan pengganti nama buah. Berikur penjelasan:
-    1. Apel
-    2. Mandarin
-    3. Orange
-    4. Lemon
-   
-    """)
-    st.write("""2. Fruit Name (Nama Buah) :
-    ini akan menjadi outputnya yaitu nama buah.Dalam Aplikasi ini akan nama buah yang akan diprediksi ada 4 yaitu Apple, Orange, Mandarin, dan Lemon.
-   
-    """)
-    
-    st.write("""3. Fruit Subtype (Tipe Buah) :
-    Ini merupakan tipe buah. untuk buah apel, mandarin, orange, dan lemon mempunyai tipe buah yang berbeda- beda. 
-   
-    """)
-    st.write("""4. Mass (Massa Buah) :
-    setiap buah mempunyai berat dengan satuan gram. setiap buah juga mempunyai massa buah yang berbeda - beda.
-    
-    """)
-    st.write("""5. Width (Lebar Buah):
-    setiap buah mempunyai lebar buah yang berbeda - beda.
-    
-    """)
-    st.write("""6. Height (Tinggi Buah):
-    setiap buah mempunyai tinggi buah yang berbeda - beda.
-    
-    """)
-    st.write("""7. Color_Score (Skor Warna) :
-    setiap buah mempunyai skor warna  yang berbeda - beda.
-    
-    """)
-    st.write("""Dari inputan Massa, Width, Height, dan Color_Score itu akan menghasilkan output nama buah
-    
-    """)
-    
-    st.write("""Memprediksi Nama Buah (output) :
-
-    1. Apple 
-    2. Mandarin 
-    3. Orange 
-    4. Lemon 
-    """)
-    st.write("###### Aplikasi ini untuk : Fruit  Prediction (Prediksi buah) ")
-    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/135-ShintaNuriyatulMahmudiyah/PenambanganDataWeb ")
-    st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6285704097096 ")
-
-with data:
-    df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
-    st.dataframe(df)
-with preprocessing:
-    st.title("""Preprosessing""")
-    clean_tag = re.compile('@\S+')
-    clean_url = re.compile('https?:\/\/.*[\r\n]*')
-    clean_hastag = re.compile('#\S+')
-    clean_symbol = re.compile('[^a-zA-Z]')
-    def clean_punct(text):
+with Proses:
+   st.title("""Preprosessing""")
+   clean_tag = re.compile('@\S+')
+   clean_url = re.compile('https?:\/\/.*[\r\n]*')
+   clean_hastag = re.compile('#\S+')
+   clean_symbol = re.compile('[^a-zA-Z]')
+   def clean_punct(text):
       text = clean_tag.sub('', text)
       text = clean_url.sub('', text)
       text = clean_hastag.sub(' ', text)
       text = clean_symbol.sub(' ', text)
       return text
    # Buat kolom tambahan untuk data description yang telah diremovepunctuation   
-    preprocessing = data['text'].apply(clean_punct)
-    clean=pd.DataFrame(preprocessing)
-    "### Melakukan Cleaning "
-    st.table(table(clean))
+   preprocessing = data['Text'].apply(clean_punct)
+   clean=pd.DataFrame(preprocessing)
+   "### Melakukan Cleaning "
+   clean
 
-    def clean_lower(lwr):
+   def clean_lower(lwr):
       lwr = lwr.lower() # lowercase text
       return lwr
    # Buat kolom tambahan untuk data description yang telah dicasefolding  
-    clean = clean['ulasan'].apply(clean_lower)
-    casefolding=pd.DataFrame(clean)
-    "### Melakukan Casefolding "
-    casefolding
+   clean = clean['Text'].apply(clean_lower)
+   casefolding=pd.DataFrame(clean)
+   "### Melakukan Casefolding "
+   casefolding
 
-    def to_list(text):
+   def to_list(text):
       t_list=[]
       for i in range(len(text)):
          t_list.append(text[i])
       return t_list
 
-    casefolding1 = to_list(clean)
+   casefolding1 = to_list(clean)
 
-    "### Melakukan Tokenisasi "
-    def tokenisasi(text):
+   "### Melakukan Tokenisasi "
+   def tokenisasi(text):
       tokenize=[]
       for i in range(len(text)):
          token=word_tokenize(text[i])
@@ -144,11 +93,11 @@ with preprocessing:
          tokenize.append(tokendata)
       return tokendata
 
-    tokenisasi = tokenisasi(casefolding1)
-    tokenisasi
+   tokenisasi = tokenisasi(casefolding1)
+   tokenisasi
 
-    "### Melakukan Stopword Removal "
-    def stopword(text):
+   "### Melakukan Stopword Removal "
+   def stopword(text):
       stopword=[]
       for i in range(len(text)):
          listStopword =  set(stopwords.words('indonesian')+stopwords.words('english'))
@@ -158,10 +107,10 @@ with preprocessing:
                removed.append(x)
          stopword.append(removed)
       return removed
-    stopword = stopword(tokenisasi)
-    stopword
-    "### Melakukan Stemming "
-    def stemming(text):
+   stopword = stopword(tokenisasi)
+   stopword
+   "### Melakukan Stemming "
+   def stemming(text):
       stemming=[]
       for i in range(len(text)):
          factory = StemmerFactory()
@@ -173,35 +122,102 @@ with preprocessing:
       return stemming
    # kk = pd.DataFrame(stemming)
    # kk.to_csv('hasil_stemming.csv')
-    kkk = pd.read_csv("hasil_stemming.csv")
-    kkk
+   kkk = pd.read_csv("hasil_stemming.csv")
+   kkk
 
    
-    "### Hasil Proses Pre-Prosessing "
-    def gabung(test):
+   "### Hasil Proses Pre-Prosessing "
+   def gabung(test):
       join=[]
       for i in range(len(stemming)):
          joinkata = ' '.join(stemming[i])
          join.append(joinkata)
-      hasilpreproses = pd.DataFrame(join, columns=['ulasan'])
+      hasilpreproses = pd.DataFrame(join, columns=['Text'])
       hasilpreproses.to_csv('hasilpreproses.csv')
       return hasilpreproses
 
-    hasilpreproses = pd.read_csv("hasilpreproses.csv")
-    hasilpreproses
+   hasilpreproses = pd.read_csv("hasilpreproses.csv")
+   hasilpreproses
 
-    st.title("""TF-IDF""")
-    tr_idf_model  = TfidfVectorizer()
-    tf_idf_vector = tr_idf_model.fit_transform(hasilpreproses['ulasan'])
-    tf_idf_array = tf_idf_vector.toarray()
-    words_set = tr_idf_model.get_feature_names_out()
-    df_tf_idf = pd.DataFrame(tf_idf_array, columns = words_set)
-    df_tf_idf
-
-
+   st.title("""TF-IDF""")
+   tr_idf_model  = TfidfVectorizer()
+   tf_idf_vector = tr_idf_model.fit_transform(hasilpreproses['Text'])
+   tf_idf_array = tf_idf_vector.toarray()
+   words_set = tr_idf_model.get_feature_names_out()
+   df_tf_idf = pd.DataFrame(tf_idf_array, columns = words_set)
+   df_tf_idf
 
 
 
+with Model:
+   st.title("""Modeling""")
+   y = data.Label
+   # split data
+   X_train,X_test,y_train,y_test = train_test_split(df_tf_idf,y,test_size=0.2,random_state=4)
+   clf = svm.SVC(kernel='linear')
+   clf.fit(X_train, y_train)
+   X_pred = clf.predict(X_test)
+   akurasi = round(100 * accuracy_score(y_test,X_pred))
+   st.subheader("Metode Yang Digunakan Adalah Support Vector Machine")
+   st.write("Akurasi Terbaik Dari Skenario Uji Coba Diperoleh Sebesar : {0:0.2f} %" . format(akurasi))
+
+   with open('vec_pickle','wb') as r:
+      pickle.dump(clf,r)
+   with open('svm_pickle','wb') as r:
+      pickle.dump(tr_idf_model,r)
 
 
-                
+with Implementasi:
+   st.title("""Implementasi Data""")
+
+   inputan = st.text_input('Masukkan Ulasan')
+
+
+   def submit():
+      # input
+      clean_symbol,casefolding,token,stopword,katastem,joinkata = preproses(inputan)
+
+       # loaded_model = pickle.load(open(svm_pickle, 'rb'))
+      with open('vec_pickle', 'rb') as r:
+         d = pickle.load(r)
+      with open('svm_pickle', 'rb') as r:
+         data = pickle.load(r)
+
+      X_pred = d.predict((data.transform([joinkata])).toarray())
+      if X_pred[0]== 1 :
+         h = 'Positif'
+      else :
+         h = 'Negatif'
+      hasil =f"Berdasarkan data yang Anda masukkan, maka ulasan masuk dalam kategori  : {h}"
+      st.success(hasil)
+      st.subheader('Preprocessing')
+      st.write('Cleansing :', clean_symbol)
+      st.write("Case Folding :",casefolding)
+      st.write("Tokenisasi :",token)
+      st.write("Stopword :",stopword)
+      st.write("Steeming :",katastem)
+      st.write("Siap Proses :",joinkata)
+
+   all = st.button("Submit")
+   if all :
+      def preproses(inputan):
+         clean_tag = re.sub('@\S+','', inputan)
+         clean_url = re.sub('https?:\/\/.*[\r\n]*','', clean_tag)
+         clean_hastag = re.sub('#\S+',' ', clean_url)
+         clean_symbol = re.sub('[^a-zA-Z]',' ', clean_hastag)
+         casefolding = clean_symbol.lower()
+         token=word_tokenize(casefolding)
+         listStopword = set(stopwords.words('indonesian')+stopwords.words('english'))
+         stopword=[]
+         for x in (token):
+            if x not in listStopword:
+               stopword.append(x)
+         factory = StemmerFactory()
+         stemmer = factory.create_stemmer()
+         katastem=[]
+         for x in (stopword):
+           katastem.append(stemmer.stem(x))
+         joinkata = ' '.join(katastem)
+         return clean_symbol,casefolding,token,stopword,katastem,joinkata
+      st.balloons()
+      submit()
