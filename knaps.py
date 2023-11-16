@@ -114,7 +114,7 @@ with preprocessing:
     preprocessing = data['ulasan'].apply(clean_punct)
     clean=pd.DataFrame(preprocessing)
     "### Melakukan Cleaning "
-    pd.read_table = st.write(st.table(clean_punct()))
+    st.table(table(clean))
 
     def clean_lower(lwr):
       lwr = lwr.lower() # lowercase text
