@@ -127,14 +127,12 @@ with Proses:
 
    
    "### Hasil Proses Pre-Prosessing "
-   def gabung(test):
-      join=[]
-      for i in range(len(stemming)):
-         joinkata = ' '.join(stemming[i])
-         join.append(joinkata)
-      hasilpreproses = pd.DataFrame(join, columns=['Text'])
-      hasilpreproses.to_csv('hasilpreproses.csv')
-      return hasilpreproses
+   import ast
+   def join(texts):
+     return " ".join([text for text in texts])
+   df['hasilpreproses']=df['ulasan'].apply(join)
+   df.head()
+   df['hasilpreproses'].to_csv('hasilpreproses.csv')
 
    #hasilpreproses = pd.read_csv("hasilpreproses.csv")
    #hasilpreproses
