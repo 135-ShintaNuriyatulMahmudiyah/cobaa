@@ -122,8 +122,8 @@ with Proses:
       return stemming
    # kk = pd.DataFrame(stemming)
    # kk.to_csv('hasil_stemming.csv')
-   kkk = pd.read_csv("hasil_stemming.csv")
-   kkk
+   #kkk = pd.read_csv("hasil_stemming.csv")
+   #kkk
 
    
    "### Hasil Proses Pre-Prosessing "
@@ -136,8 +136,8 @@ with Proses:
       hasilpreproses.to_csv('hasilpreproses.csv')
       return hasilpreproses
 
-   hasilpreproses = pd.read_csv("hasilpreproses.csv")
-   hasilpreproses
+   #hasilpreproses = pd.read_csv("hasilpreproses.csv")
+   #hasilpreproses
 
    st.title("""TF-IDF""")
    tr_idf_model  = TfidfVectorizer()
