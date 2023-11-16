@@ -38,7 +38,7 @@ with Learn:
    st.write("Total datanya adalah 132 dengan atribut 2")
    # uploaded_files = st.file_uploader("Upload file CSV", accept_multiple_files=True)
    # if uploaded_files is not None :
-   data = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
+   data = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv')
    # else:
    #    for uploaded_file in uploaded_files:
    #       data = pd.read_csv(uploaded_file)
