@@ -125,7 +125,7 @@ with preprocessing:
    # Buat kolom tambahan untuk data description yang telah dicasefolding  
     clean = clean['Text'].apply(clean_lower)
     casefolding=pd.DataFrame(clean)
-   "### Melakukan Casefolding "
+    "### Melakukan Casefolding "
     casefolding
 
     def to_list(text):
@@ -136,7 +136,7 @@ with preprocessing:
 
     casefolding1 = to_list(clean)
 
-   "### Melakukan Tokenisasi "
+    "### Melakukan Tokenisasi "
     def tokenisasi(text):
       tokenize=[]
       for i in range(len(text)):
@@ -150,7 +150,7 @@ with preprocessing:
     tokenisasi = tokenisasi(casefolding1)
     tokenisasi
 
-   "### Melakukan Stopword Removal "
+    "### Melakukan Stopword Removal "
     def stopword(text):
       stopword=[]
       for i in range(len(text)):
@@ -163,7 +163,7 @@ with preprocessing:
       return removed
     stopword = stopword(tokenisasi)
     stopword
-   "### Melakukan Stemming "
+    "### Melakukan Stemming "
     def stemming(text):
       stemming=[]
       for i in range(len(text)):
@@ -180,7 +180,7 @@ with preprocessing:
     kkk
 
    
-   "### Hasil Proses Pre-Prosessing "
+    "### Hasil Proses Pre-Prosessing "
     def gabung(test):
       join=[]
       for i in range(len(stemming)):
@@ -202,7 +202,7 @@ with preprocessing:
     df_tf_idf
 
 
-    """#### 1. Remove Regex (Cleansing)"""
+     """#### 1. Remove Regex (Cleansing)"""
     
     # Menghilangkan kalimat Encode
      data['ulasan'].replace(to_replace = r'\\x[0-9a-fA-F][0-9a-fA-F]', value = '', regex = True, inplace = True)
