@@ -1,71 +1,225 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
+from sklearn import svm
+from nltk.corpus import stopwords
+import re
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+from nltk.tokenize import sent_tokenize, word_tokenize
+from sklearn.feature_extraction.text import TfidfVectorizer
+import pickle
 
-# Load your dataset (replace 'your_dataset.csv' with your actual dataset)
-df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
 
-# Streamlit app
-st.title('Sentiment Analysis with Logistic Regression')
+Home, Learn, Proses, Model, Implementasi = st.tabs(['Home', 'Learn Data', 'Preprocessing dan TF-IDF', 'Model', 'Implementasi'])
 
-# Data Preprocessing
-st.header('Data Preprocessing')
-st.subheader('Original Dataset:')
-st.write(df.head())
+with Home:
+   st.title("""SENTIMEN ANALISIS RESESI 2023""")
+   st.subheader('Kelompok 2')
+   st.text("""
+            1. Nuskhatul Haqqi 200411100034
+            2. Zuni Amanda Dewi 200411100051
+            3. Abd. Hanif Azhari 200411100101""")
 
-# Assuming you have a column named 'ulasan' containing the text data
-# You can customize the preprocessing steps based on your dataset
-# Example: Lowercasing and removing punctuation
-df['clean_ulasan'] = df['ulasan'].str.lower().replace('[^\w\s]', '', regex=True)
+with Learn:
+   st.title("""Sentiment Analisis Resesi 2023""")
+   st.write('Resesi dunia adalah kondisi ketika perekonomian sebagian besar negara sedang memburuk seiring menurunnya aktivitas di sektor perdagangan dan industri. Beberapa waktu lalu, menteri keuangan Sri Mulyani memproyeksikan dunia akan memasuki resesi pada tahun 2023.')
+   st.write('Dalam Klasifikasi ini data yang digunakan adalah ulasan atau komentar dari aplikasi Twitter dengan topik Resesi 2023.')
+   st.title('Klasifikasi data inputan berupa : ')
+   st.write('1. text : data komentar atau ulasan yang diambil dari twitter')
+   st.write('2. Label: kelas keluaran [1: positif, -1: Negatif]')
 
-# Display the preprocessed data
-st.subheader('Preprocessed Dataset:')
-st.write(df[['clean_ulasan', 'ulasan']].head())
+   st.title("""Asal Data""")
+   st.write("Dataset yang digunakan adalah data hasil crowling twitter dengan kata kunci 'Resesi Ekonomi 2023' yang disimpan di https://raw.githubusercontent.com/nuskhatulhaqqi/data_mining/main/resesi_2023%20(1).csv")
+   st.write("Total datanya adalah 132 dengan atribut 2")
+   # uploaded_files = st.file_uploader("Upload file CSV", accept_multiple_files=True)
+   # if uploaded_files is not None :
+   data = pd.read_csv('resesi_2023 (1).csv')
+   # else:
+   #    for uploaded_file in uploaded_files:
+   #       data = pd.read_csv(uploaded_file)
+   #       st.write("Nama File Anda = ", uploaded_file.name)
+   #       st.dataframe(data)
+      
 
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(df['clean_ulasan'], df['ulasan'], test_size=0.2, random_state=42)
 
-# Logistic Regression Model
-st.header('Logistic Regression Model')
+with Proses:
+   st.title("""Preprosessing""")
+   clean_tag = re.compile('@\S+')
+   clean_url = re.compile('https?:\/\/.*[\r\n]*')
+   clean_hastag = re.compile('#\S+')
+   clean_symbol = re.compile('[^a-zA-Z]')
+   def clean_punct(text):
+      text = clean_tag.sub('', text)
+      text = clean_url.sub('', text)
+      text = clean_hastag.sub(' ', text)
+      text = clean_symbol.sub(' ', text)
+      return text
+   # Buat kolom tambahan untuk data description yang telah diremovepunctuation   
+   preprocessing = data['Text'].apply(clean_punct)
+   clean=pd.DataFrame(preprocessing)
+   "### Melakukan Cleaning "
+   clean
 
-# Choose a vectorizer (CountVectorizer or TfidfVectorizer)
-vectorizer_choice = st.radio('Choose a Vectorizer:', ('CountVectorizer', 'TfidfVectorizer'))
+   def clean_lower(lwr):
+      lwr = lwr.lower() # lowercase text
+      return lwr
+   # Buat kolom tambahan untuk data description yang telah dicasefolding  
+   clean = clean['Text'].apply(clean_lower)
+   casefolding=pd.DataFrame(clean)
+   "### Melakukan Casefolding "
+   casefolding
 
-if vectorizer_choice == 'CountVectorizer':
-    vectorizer = CountVectorizer()
-elif vectorizer_choice == 'TfidfVectorizer':
-    vectorizer = TfidfVectorizer()
+   def to_list(text):
+      t_list=[]
+      for i in range(len(text)):
+         t_list.append(text[i])
+      return t_list
 
-# Build the pipeline with vectorizer and logistic regression model
-model = make_pipeline(vectorizer, LogisticRegression())
-model.fit(X_train, y_train)
+   casefolding1 = to_list(clean)
 
-# Model Evaluation
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-classification_rep = classification_report(y_test, y_pred)
-conf_matrix = confusion_matrix(y_test, y_pred)
+   "### Melakukan Tokenisasi "
+   def tokenisasi(text):
+      tokenize=[]
+      for i in range(len(text)):
+         token=word_tokenize(text[i])
+         tokendata = []
+         for x in token :
+            tokendata.append(x)
+         tokenize.append(tokendata)
+      return tokendata
 
-# Display the evaluation metrics
-st.header('Model Evaluation Metrics:')
-st.write(f'Model Accuracy: {accuracy:.2%}')
-st.text('Classification Report:')
-st.text(classification_rep)
-st.text('Confusion Matrix:')
-st.write(conf_matrix)
+   tokenisasi = tokenisasi(casefolding1)
+   tokenisasi
 
-# Sentiment Analysis for user input
-st.header('Sentiment Analysis for User Input')
-user_input = st.text_area('Enter a text for sentiment analysis:')
-if st.button('Analyze Sentiment'):
-    if user_input:
-        user_input = pd.Series(user_input)
-        sentiment_prediction = model.predict(user_input)
-        st.subheader('Sentiment Prediction:')
-        st.write(sentiment_prediction[0])
-    else:
-        st.warning('Please enter a text for sentiment analysis.')
+   "### Melakukan Stopword Removal "
+   def stopword(text):
+      stopword=[]
+      for i in range(len(text)):
+         listStopword =  set(stopwords.words('indonesian')+stopwords.words('english'))
+         removed=[]
+         for x in (text[i]):
+            if x not in listStopword:
+               removed.append(x)
+         stopword.append(removed)
+      return removed
+   stopword = stopword(tokenisasi)
+   stopword
+   "### Melakukan Stemming "
+   def stemming(text):
+      stemming=[]
+      for i in range(len(text)):
+         factory = StemmerFactory()
+         stemmer = factory.create_stemmer()
+         katastem=[]
+         for x in (text[i]):
+            katastem.append(stemmer.stem(x))
+         stemming.append(katastem)
+      return stemming
+   # kk = pd.DataFrame(stemming)
+   # kk.to_csv('hasil_stemming.csv')
+   kkk = pd.read_csv("hasil_stemming.csv")
+   kkk
+
+   
+   "### Hasil Proses Pre-Prosessing "
+   def gabung(test):
+      join=[]
+      for i in range(len(stemming)):
+         joinkata = ' '.join(stemming[i])
+         join.append(joinkata)
+      hasilpreproses = pd.DataFrame(join, columns=['Text'])
+      hasilpreproses.to_csv('hasilpreproses.csv')
+      return hasilpreproses
+
+   hasilpreproses = pd.read_csv("hasilpreproses.csv")
+   hasilpreproses
+
+   st.title("""TF-IDF""")
+   tr_idf_model  = TfidfVectorizer()
+   tf_idf_vector = tr_idf_model.fit_transform(hasilpreproses['Text'])
+   tf_idf_array = tf_idf_vector.toarray()
+   words_set = tr_idf_model.get_feature_names_out()
+   df_tf_idf = pd.DataFrame(tf_idf_array, columns = words_set)
+   df_tf_idf
+
+
+
+with Model:
+   st.title("""Modeling""")
+   y = data.Label
+   # split data
+   X_train,X_test,y_train,y_test = train_test_split(df_tf_idf,y,test_size=0.2,random_state=4)
+   clf = svm.SVC(kernel='linear')
+   clf.fit(X_train, y_train)
+   X_pred = clf.predict(X_test)
+   akurasi = round(100 * accuracy_score(y_test,X_pred))
+   st.subheader("Metode Yang Digunakan Adalah Support Vector Machine")
+   st.write("Akurasi Terbaik Dari Skenario Uji Coba Diperoleh Sebesar : {0:0.2f} %" . format(akurasi))
+
+   with open('vec_pickle','wb') as r:
+      pickle.dump(clf,r)
+   with open('svm_pickle','wb') as r:
+      pickle.dump(tr_idf_model,r)
+
+
+with Implementasi:
+   st.title("""Implementasi Data""")
+
+   inputan = st.text_input('Masukkan Ulasan')
+
+
+   def submit():
+      # input
+      clean_symbol,casefolding,token,stopword,katastem,joinkata = preproses(inputan)
+
+       # loaded_model = pickle.load(open(svm_pickle, 'rb'))
+      with open('vec_pickle', 'rb') as r:
+         d = pickle.load(r)
+      with open('svm_pickle', 'rb') as r:
+         data = pickle.load(r)
+
+      X_pred = d.predict((data.transform([joinkata])).toarray())
+      if X_pred[0]== 1 :
+         h = 'Positif'
+      else :
+         h = 'Negatif'
+      hasil =f"Berdasarkan data yang Anda masukkan, maka ulasan masuk dalam kategori  : {h}"
+      st.success(hasil)
+      st.subheader('Preprocessing')
+      st.write('Cleansing :', clean_symbol)
+      st.write("Case Folding :",casefolding)
+      st.write("Tokenisasi :",token)
+      st.write("Stopword :",stopword)
+      st.write("Steeming :",katastem)
+      st.write("Siap Proses :",joinkata)
+
+   all = st.button("Submit")
+   if all :
+      def preproses(inputan):
+         clean_tag = re.sub('@\S+','', inputan)
+         clean_url = re.sub('https?:\/\/.*[\r\n]*','', clean_tag)
+         clean_hastag = re.sub('#\S+',' ', clean_url)
+         clean_symbol = re.sub('[^a-zA-Z]',' ', clean_hastag)
+         casefolding = clean_symbol.lower()
+         token=word_tokenize(casefolding)
+         listStopword = set(stopwords.words('indonesian')+stopwords.words('english'))
+         stopword=[]
+         for x in (token):
+            if x not in listStopword:
+               stopword.append(x)
+         factory = StemmerFactory()
+         stemmer = factory.create_stemmer()
+         katastem=[]
+         for x in (stopword):
+           katastem.append(stemmer.stem(x))
+         joinkata = ' '.join(katastem)
+         return clean_symbol,casefolding,token,stopword,katastem,joinkata
+      st.balloons()
+      submit()
+
+
