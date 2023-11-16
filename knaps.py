@@ -1,13 +1,15 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import string
-#import nltk
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
+from sklearn import svm
+from nltk.corpus import stopwords
 import re
-#from wordcloud import WordCloud
-#from nltk.sentiment.vader import SentimentIntensityAnalyzer
-#from nltk.corpus import stopwords
-#import matplotlib.pyplot as plt
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -100,20 +102,106 @@ with data:
     df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
     st.dataframe(df)
 with preprocessing:
-    data = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv', sep='\t')
+     st.title("""Preprosessing""")
+   clean_tag = re.compile('@\S+')
+   clean_url = re.compile('https?:\/\/.*[\r\n]*')
+   clean_hastag = re.compile('#\S+')
+   clean_symbol = re.compile('[^a-zA-Z]')
+   def clean_punct(text):
+      text = clean_tag.sub('', text)
+      text = clean_url.sub('', text)
+      text = clean_hastag.sub(' ', text)
+      text = clean_symbol.sub(' ', text)
+      return text
+   # Buat kolom tambahan untuk data description yang telah diremovepunctuation   
+   preprocessing = data['Text'].apply(clean_punct)
+   clean=pd.DataFrame(preprocessing)
+   "### Melakukan Cleaning "
+   clean
 
-    ### Preprocessing Data
-    
-    # Import Library
-    import re
-    import nltk
-    import string
-    #NLTK
-    from nltk.tokenize import sent_tokenize, word_tokenize
-    from nltk.corpus import stopwords
-    
-    nltk.download('stopwords')
-    
+   def clean_lower(lwr):
+      lwr = lwr.lower() # lowercase text
+      return lwr
+   # Buat kolom tambahan untuk data description yang telah dicasefolding  
+   clean = clean['Text'].apply(clean_lower)
+   casefolding=pd.DataFrame(clean)
+   "### Melakukan Casefolding "
+   casefolding
+
+   def to_list(text):
+      t_list=[]
+      for i in range(len(text)):
+         t_list.append(text[i])
+      return t_list
+
+   casefolding1 = to_list(clean)
+
+   "### Melakukan Tokenisasi "
+   def tokenisasi(text):
+      tokenize=[]
+      for i in range(len(text)):
+         token=word_tokenize(text[i])
+         tokendata = []
+         for x in token :
+            tokendata.append(x)
+         tokenize.append(tokendata)
+      return tokendata
+
+   tokenisasi = tokenisasi(casefolding1)
+   tokenisasi
+
+   "### Melakukan Stopword Removal "
+   def stopword(text):
+      stopword=[]
+      for i in range(len(text)):
+         listStopword =  set(stopwords.words('indonesian')+stopwords.words('english'))
+         removed=[]
+         for x in (text[i]):
+            if x not in listStopword:
+               removed.append(x)
+         stopword.append(removed)
+      return removed
+   stopword = stopword(tokenisasi)
+   stopword
+   "### Melakukan Stemming "
+   def stemming(text):
+      stemming=[]
+      for i in range(len(text)):
+         factory = StemmerFactory()
+         stemmer = factory.create_stemmer()
+         katastem=[]
+         for x in (text[i]):
+            katastem.append(stemmer.stem(x))
+         stemming.append(katastem)
+      return stemming
+   # kk = pd.DataFrame(stemming)
+   # kk.to_csv('hasil_stemming.csv')
+   kkk = pd.read_csv("hasil_stemming.csv")
+   kkk
+
+   
+   "### Hasil Proses Pre-Prosessing "
+   def gabung(test):
+      join=[]
+      for i in range(len(stemming)):
+         joinkata = ' '.join(stemming[i])
+         join.append(joinkata)
+      hasilpreproses = pd.DataFrame(join, columns=['Text'])
+      hasilpreproses.to_csv('hasilpreproses.csv')
+      return hasilpreproses
+
+   hasilpreproses = pd.read_csv("hasilpreproses.csv")
+   hasilpreproses
+
+   st.title("""TF-IDF""")
+   tr_idf_model  = TfidfVectorizer()
+   tf_idf_vector = tr_idf_model.fit_transform(hasilpreproses['Text'])
+   tf_idf_array = tf_idf_vector.toarray()
+   words_set = tr_idf_model.get_feature_names_out()
+   df_tf_idf = pd.DataFrame(tf_idf_array, columns = words_set)
+   df_tf_idf
+
+
     """#### 1. Remove Regex (Cleansing)"""
     
     # Menghilangkan kalimat Encode
