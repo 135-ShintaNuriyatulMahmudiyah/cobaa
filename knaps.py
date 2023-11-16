@@ -240,13 +240,13 @@ with preprocessing:
         return ulasan 
     data['clean'] = data['ulasan'].apply(lambda x: remove(x))
      
- data
+data
 
 """#### 2. Case Folding"""
 
 # proses case folding 
- data['case_folding'] = data['clean'].str.lower()
- data
+data['case_folding'] = data['clean'].str.lower()
+data
 
 
 
