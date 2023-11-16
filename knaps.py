@@ -116,7 +116,7 @@ with preprocessing:
    # Buat kolom tambahan untuk data description yang telah diremovepunctuation   
     preprocessing = data['Text'].apply(clean_punct)
     clean=pd.DataFrame(preprocessing)
-   "### Melakukan Cleaning "
+    "### Melakukan Cleaning "
     clean
 
     def clean_lower(lwr):
