@@ -60,7 +60,7 @@ with Proses:
       text = clean_symbol.sub(' ', text)
       return text
    # Buat kolom tambahan untuk data description yang telah diremovepunctuation   
-   preprocessing = data['Text'].apply(clean_punct)
+   preprocessing = data['ulasan'].apply(clean_punct)
    clean=pd.DataFrame(preprocessing)
    "### Melakukan Cleaning "
    clean
@@ -69,7 +69,7 @@ with Proses:
       lwr = lwr.lower() # lowercase text
       return lwr
    # Buat kolom tambahan untuk data description yang telah dicasefolding  
-   clean = clean['Text'].apply(clean_lower)
+   clean = clean['ulasan'].apply(clean_lower)
    casefolding=pd.DataFrame(clean)
    "### Melakukan Casefolding "
    casefolding
