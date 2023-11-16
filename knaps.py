@@ -202,7 +202,7 @@ with preprocessing:
     df_tf_idf
 
 
-     """#### 1. Remove Regex (Cleansing)"""
+      """#### 1. Remove Regex (Cleansing)"""
     
     # Menghilangkan kalimat Encode
      data['ulasan'].replace(to_replace = r'\\x[0-9a-fA-F][0-9a-fA-F]', value = '', regex = True, inplace = True)
