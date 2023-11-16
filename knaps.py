@@ -111,7 +111,7 @@ with preprocessing:
       text = clean_symbol.sub(' ', text)
       return text
    # Buat kolom tambahan untuk data description yang telah diremovepunctuation   
-    preprocessing = data['ulasan'].apply(clean_punct)
+    preprocessing = data['text'].apply(clean_punct)
     clean=pd.DataFrame(preprocessing)
     "### Melakukan Cleaning "
     st.table(table(clean))
