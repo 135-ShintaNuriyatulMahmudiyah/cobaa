@@ -205,12 +205,12 @@ with preprocessing:
     """#### 1. Remove Regex (Cleansing)"""
     
     # Menghilangkan kalimat Encode
-     data['ulasan'].replace(to_replace = r'\\x[0-9a-fA-F][0-9a-fA-F]', value = '', regex = True, inplace = True)
-     data
-     def hello (ulasan):
+    data['ulasan'].replace(to_replace = r'\\x[0-9a-fA-F][0-9a-fA-F]', value = '', regex = True, inplace = True)
+    data
+    def hello (ulasan):
         print("hello world")
     
-     def remove(ulasan):
+    def remove(ulasan):
         # remove stock market tickers like $GE
         ulasan = re.sub(r'\$\w*', '',str(ulasan ))
         # Remove RT/b/ yang tersisa
@@ -238,7 +238,7 @@ with preprocessing:
         ulasan = re.sub(r'\n', '', ulasan)
     
         return ulasan 
-     data['clean'] = data['ulasan'].apply(lambda x: remove(x))
+    data['clean'] = data['ulasan'].apply(lambda x: remove(x))
      
  data
 
