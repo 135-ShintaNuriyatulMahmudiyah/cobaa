@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
-from sklearn import svm
 from nltk.corpus import stopwords
 import re
 import nltk
@@ -17,7 +14,7 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_selection import SelectKBest, chi2
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
 from sklearn.metrics import confusion_matrix
 #import seaborn as sns
 
@@ -117,7 +114,7 @@ with preprocessing:
     preprocessing = data['ulasan'].apply(clean_punct)
     clean=pd.DataFrame(preprocessing)
     "### Melakukan Cleaning "
-    clean
+    pd.read_table = st.write(st.table(clean_punct()))
 
     def clean_lower(lwr):
       lwr = lwr.lower() # lowercase text
