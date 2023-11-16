@@ -194,7 +194,7 @@ with preprocessing:
     hasilpreproses
 
     st.title("""TF-IDF""")
-   tr_idf_model  = TfidfVectorizer()
+    tr_idf_model  = TfidfVectorizer()
     tf_idf_vector = tr_idf_model.fit_transform(hasilpreproses['Text'])
     tf_idf_array = tf_idf_vector.toarray()
     words_set = tr_idf_model.get_feature_names_out()
