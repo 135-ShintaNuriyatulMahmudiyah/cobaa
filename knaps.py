@@ -102,42 +102,42 @@ with data:
     df = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/Data/main/Data.csv',sep='\t')
     st.dataframe(df)
 with preprocessing:
-     st.title("""Preprosessing""")
-   clean_tag = re.compile('@\S+')
-   clean_url = re.compile('https?:\/\/.*[\r\n]*')
-   clean_hastag = re.compile('#\S+')
-   clean_symbol = re.compile('[^a-zA-Z]')
-   def clean_punct(text):
+    st.title("""Preprosessing""")
+    clean_tag = re.compile('@\S+')
+    clean_url = re.compile('https?:\/\/.*[\r\n]*')
+    clean_hastag = re.compile('#\S+')
+    clean_symbol = re.compile('[^a-zA-Z]')
+    def clean_punct(text):
       text = clean_tag.sub('', text)
       text = clean_url.sub('', text)
       text = clean_hastag.sub(' ', text)
       text = clean_symbol.sub(' ', text)
       return text
    # Buat kolom tambahan untuk data description yang telah diremovepunctuation   
-   preprocessing = data['Text'].apply(clean_punct)
-   clean=pd.DataFrame(preprocessing)
+    preprocessing = data['Text'].apply(clean_punct)
+    clean=pd.DataFrame(preprocessing)
    "### Melakukan Cleaning "
-   clean
+    clean
 
-   def clean_lower(lwr):
+    def clean_lower(lwr):
       lwr = lwr.lower() # lowercase text
       return lwr
    # Buat kolom tambahan untuk data description yang telah dicasefolding  
-   clean = clean['Text'].apply(clean_lower)
-   casefolding=pd.DataFrame(clean)
+    clean = clean['Text'].apply(clean_lower)
+    casefolding=pd.DataFrame(clean)
    "### Melakukan Casefolding "
-   casefolding
+    casefolding
 
-   def to_list(text):
+    def to_list(text):
       t_list=[]
       for i in range(len(text)):
          t_list.append(text[i])
       return t_list
 
-   casefolding1 = to_list(clean)
+    casefolding1 = to_list(clean)
 
    "### Melakukan Tokenisasi "
-   def tokenisasi(text):
+    def tokenisasi(text):
       tokenize=[]
       for i in range(len(text)):
          token=word_tokenize(text[i])
@@ -147,11 +147,11 @@ with preprocessing:
          tokenize.append(tokendata)
       return tokendata
 
-   tokenisasi = tokenisasi(casefolding1)
-   tokenisasi
+    tokenisasi = tokenisasi(casefolding1)
+    tokenisasi
 
    "### Melakukan Stopword Removal "
-   def stopword(text):
+    def stopword(text):
       stopword=[]
       for i in range(len(text)):
          listStopword =  set(stopwords.words('indonesian')+stopwords.words('english'))
@@ -161,10 +161,10 @@ with preprocessing:
                removed.append(x)
          stopword.append(removed)
       return removed
-   stopword = stopword(tokenisasi)
-   stopword
+    stopword = stopword(tokenisasi)
+    stopword
    "### Melakukan Stemming "
-   def stemming(text):
+    def stemming(text):
       stemming=[]
       for i in range(len(text)):
          factory = StemmerFactory()
@@ -176,12 +176,12 @@ with preprocessing:
       return stemming
    # kk = pd.DataFrame(stemming)
    # kk.to_csv('hasil_stemming.csv')
-   kkk = pd.read_csv("hasil_stemming.csv")
-   kkk
+    kkk = pd.read_csv("hasil_stemming.csv")
+    kkk
 
    
    "### Hasil Proses Pre-Prosessing "
-   def gabung(test):
+    def gabung(test):
       join=[]
       for i in range(len(stemming)):
          joinkata = ' '.join(stemming[i])
@@ -190,27 +190,27 @@ with preprocessing:
       hasilpreproses.to_csv('hasilpreproses.csv')
       return hasilpreproses
 
-   hasilpreproses = pd.read_csv("hasilpreproses.csv")
-   hasilpreproses
+    hasilpreproses = pd.read_csv("hasilpreproses.csv")
+    hasilpreproses
 
-   st.title("""TF-IDF""")
+    st.title("""TF-IDF""")
    tr_idf_model  = TfidfVectorizer()
-   tf_idf_vector = tr_idf_model.fit_transform(hasilpreproses['Text'])
-   tf_idf_array = tf_idf_vector.toarray()
-   words_set = tr_idf_model.get_feature_names_out()
-   df_tf_idf = pd.DataFrame(tf_idf_array, columns = words_set)
-   df_tf_idf
+    tf_idf_vector = tr_idf_model.fit_transform(hasilpreproses['Text'])
+    tf_idf_array = tf_idf_vector.toarray()
+    words_set = tr_idf_model.get_feature_names_out()
+    df_tf_idf = pd.DataFrame(tf_idf_array, columns = words_set)
+    df_tf_idf
 
 
     """#### 1. Remove Regex (Cleansing)"""
     
     # Menghilangkan kalimat Encode
-    data['ulasan'].replace(to_replace = r'\\x[0-9a-fA-F][0-9a-fA-F]', value = '', regex = True, inplace = True)
-    data
-    def hello (ulasan):
+     data['ulasan'].replace(to_replace = r'\\x[0-9a-fA-F][0-9a-fA-F]', value = '', regex = True, inplace = True)
+     data
+     def hello (ulasan):
         print("hello world")
     
-    def remove(ulasan):
+     def remove(ulasan):
         # remove stock market tickers like $GE
         ulasan = re.sub(r'\$\w*', '',str(ulasan ))
         # Remove RT/b/ yang tersisa
@@ -238,15 +238,15 @@ with preprocessing:
         ulasan = re.sub(r'\n', '', ulasan)
     
         return ulasan 
-    data['clean'] = data['ulasan'].apply(lambda x: remove(x))
+     data['clean'] = data['ulasan'].apply(lambda x: remove(x))
      
-data
+ data
 
 """#### 2. Case Folding"""
 
 # proses case folding 
-data['case_folding'] = data['clean'].str.lower()
-data
+ data['case_folding'] = data['clean'].str.lower()
+ data
 
 
 
