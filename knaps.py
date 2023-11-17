@@ -131,7 +131,7 @@ with Proses:
    import ast
    def join(texts):
      return " ".join([hasilpreproses for hasilpreproses in texts])
-   df['hasilpreproses']=df['ulasan'].apply(join)
+   df['hasilpreproses']=df['hasilpreproses'].apply(join)
    df.head()
    df['hasilpreproses'].to_csv('hasilpreproses.csv')
 
