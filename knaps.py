@@ -127,6 +127,7 @@ with Proses:
 
    
    "### Hasil Proses Pre-Prosessing "
+   data = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/cobaa/main/hasilpreproses.csv')
    import ast
    def join(texts):
      return " ".join([text for text in texts])
