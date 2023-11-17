@@ -130,7 +130,7 @@ with Proses:
    data = pd.read_csv('https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/cobaa/main/hasilpreproses.csv')
    import ast
    def join(texts):
-     return " ".join([text for text in texts])
+     return " ".join([hasilpreproses for hasilpreproses in texts])
    df['hasilpreproses']=df['ulasan'].apply(join)
    df.head()
    df['hasilpreproses'].to_csv('hasilpreproses.csv')
