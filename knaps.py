@@ -116,7 +116,7 @@ with Proses:
    "### Melakukan Normalisasi "
    #normalisasi
    #menyeragamkan kata yang memiliki makna yang sama namun penelitiannya berbeda
-   normalizad_word=pd.read_csv("/content/drive/MyDrive/mbkm/colloquial-indonesian-lexicon.csv")
+   normalizad_word=pd.read_csv("https://raw.githubusercontent.com/135-ShintaNuriyatulMahmudiyah/cobaa/main/colloquial-indonesian-lexicon.csv")
    normalizad_word_dict={}
    for index, row in normalizad_word.iterrows():
      if row [0] not in normalizad_word_dict:
