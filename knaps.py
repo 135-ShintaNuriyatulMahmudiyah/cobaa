@@ -1,9 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
-from sklearn import svm
+import matplotlib.pyplot as plt
 from nltk.corpus import stopwords
 import re
 import nltk
@@ -12,7 +10,16 @@ nltk.download('punkt')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from nltk.tokenize import sent_tokenize, word_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
-import pickle
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import re
 
 
 Home, Learn, Proses, Model, Implementasi = st.tabs(['Home', 'Learn Data', 'Preprocessing dan TF-IDF', 'Model', 'Implementasi'])
@@ -49,20 +56,17 @@ with Learn:
 
 with Proses:
    st.title("""Preprosessing""")
-   clean_tag = re.compile('@\S+')
-   clean_url = re.compile('https?:\/\/.*[\r\n]*')
-   clean_hastag = re.compile('#\S+')
-   clean_symbol = re.compile('[^a-zA-Z]')
-   def clean_punct(text):
-      text = clean_tag.sub('', text)
-      text = clean_url.sub('', text)
-      text = clean_hastag.sub(' ', text)
-      text = clean_symbol.sub(' ', text)
-      return text
-   # Buat kolom tambahan untuk data description yang telah diremovepunctuation   
-   preprocessing = data['ulasan'].apply(clean_punct)
-   clean=pd.DataFrame(preprocessing)
-   "### Melakukan Cleaning "
+   def remove_ulasan_Special(text):
+      #menghapus tab,new line dan back slice
+      text=text.replace('\\t'," ").replace('\\n', " ").replace('\\u'," ").replace('\\'," ")
+      #menghapus no ASCII(emoticon, chines word, etc)
+      text=text.encode('ascii','replace').decode('ascii')
+      #menghapus link, hastag
+      text=' '.join(re.sub("([@#][A-Za-z0-9]+)|(\w+:\/\/\S+)"," ",text).split())
+      return text.replace("http://"," ").replace("https://"," ")
+   remove=df['ulasan'].apply(remove_ulasan_Special)
+   clean=pd.DataFrame(remove)
+   "### Melakukan remove_ulasan_Special"
    clean
 
    def clean_lower(lwr):
@@ -74,6 +78,24 @@ with Proses:
    "### Melakukan Casefolding "
    casefolding
 
+   #menghapus angka
+   def remove_number(text):
+     return re.sub(r"\d","", text)
+   rnumber=df['ulasan'].apply(remove_number)
+   remove_number=pd.DataFrame(rnumber)
+   "### menghapus angka"
+   remove_number
+
+   #menghapus tanda baca
+   def remove_punctuation(text):
+     return text.translate(str.maketrans("","",string.punctuation))
+   tanda_baca=df['ulasan'].apply(remove_punctuation)
+   remove_punctuation=pd.DataFrame(tanda_baca)
+   "### menghapus tanda baca"
+   remove_punctuation
+
+   
+
    def to_list(text):
       t_list=[]
       for i in range(len(text)):
@@ -83,18 +105,29 @@ with Proses:
    casefolding1 = to_list(clean)
 
    "### Melakukan Tokenisasi "
-   def tokenisasi(text):
-      tokenize=[]
-      for i in range(len(text)):
-         token=word_tokenize(text[i])
-         tokendata = []
-         for x in token :
-            tokendata.append(x)
-         tokenize.append(tokendata)
-      return tokendata
-
-   tokenisasi = tokenisasi(casefolding1)
+   #tokenizing
+   def word_tokenize_warpper(text):
+     return word_tokenize(text)
+   token=df['ulasan'].apply(word_tokenize_warpper)
+   tokenisasi=pd.DataFrame(token)
+   "### tokenisasi"
    tokenisasi
+
+   "### Melakukan Normalisasi "
+   #normalisasi
+   #menyeragamkan kata yang memiliki makna yang sama namun penelitiannya berbeda
+   normalizad_word=pd.read_csv("/content/drive/MyDrive/mbkm/colloquial-indonesian-lexicon.csv")
+   normalizad_word_dict={}
+   for index, row in normalizad_word.iterrows():
+     if row [0] not in normalizad_word_dict:
+       normalizad_word_dict[row[0]]=row[1]
+   def normalized_term(document):
+     return [normalizad_word_dict[term] if term in normalizad_word_dict else term for term in document]
+   normal=df['ulasan'].apply(normalized_term)
+   normalisasi=pd.DataFrame(normal)
+   "### Normalisasi"
+   normalisasi
+
 
    "### Melakukan Stopword Removal "
    def stopword(text):
@@ -107,7 +140,7 @@ with Proses:
                removed.append(x)
          stopword.append(removed)
       return removed
-   stopword = stopword(tokenisasi)
+   stopword = stopword(token)
    stopword
    "### Melakukan Stemming "
    def stemming(text):
@@ -139,84 +172,3 @@ with Proses:
    #hasilpreproses
 
    st.title("""TF-IDF""")
-   tr_idf_model  = TfidfVectorizer()
-   tf_idf_vector = tr_idf_model.fit_transform(hasilpreproses['ulasan'])
-   tf_idf_array = tf_idf_vector.toarray()
-   words_set = tr_idf_model.get_feature_names_out()
-   df_tf_idf = pd.DataFrame(tf_idf_array, columns = words_set)
-   df_tf_idf
-
-
-
-with Model:
-   st.title("""Modeling""")
-   y = data.Label
-   # split data
-   X_train,X_test,y_train,y_test = train_test_split(df_tf_idf,y,test_size=0.2,random_state=4)
-   clf = svm.SVC(kernel='linear')
-   clf.fit(X_train, y_train)
-   X_pred = clf.predict(X_test)
-   akurasi = round(100 * accuracy_score(y_test,X_pred))
-   st.subheader("Metode Yang Digunakan Adalah Support Vector Machine")
-   st.write("Akurasi Terbaik Dari Skenario Uji Coba Diperoleh Sebesar : {0:0.2f} %" . format(akurasi))
-
-   with open('vec_pickle','wb') as r:
-      pickle.dump(clf,r)
-   with open('svm_pickle','wb') as r:
-      pickle.dump(tr_idf_model,r)
-
-
-with Implementasi:
-   st.title("""Implementasi Data""")
-
-   inputan = st.text_input('Masukkan Ulasan')
-
-
-   def submit():
-      # input
-      clean_symbol,casefolding,token,stopword,katastem,joinkata = preproses(inputan)
-
-       # loaded_model = pickle.load(open(svm_pickle, 'rb'))
-      with open('vec_pickle', 'rb') as r:
-         d = pickle.load(r)
-      with open('svm_pickle', 'rb') as r:
-         data = pickle.load(r)
-
-      X_pred = d.predict((data.transform([joinkata])).toarray())
-      if X_pred[0]== 1 :
-         h = 'Positif'
-      else :
-         h = 'Negatif'
-      hasil =f"Berdasarkan data yang Anda masukkan, maka ulasan masuk dalam kategori  : {h}"
-      st.success(hasil)
-      st.subheader('Preprocessing')
-      st.write('Cleansing :', clean_symbol)
-      st.write("Case Folding :",casefolding)
-      st.write("Tokenisasi :",token)
-      st.write("Stopword :",stopword)
-      st.write("Steeming :",katastem)
-      st.write("Siap Proses :",joinkata)
-
-   all = st.button("Submit")
-   if all :
-      def preproses(inputan):
-         clean_tag = re.sub('@\S+','', inputan)
-         clean_url = re.sub('https?:\/\/.*[\r\n]*','', clean_tag)
-         clean_hastag = re.sub('#\S+',' ', clean_url)
-         clean_symbol = re.sub('[^a-zA-Z]',' ', clean_hastag)
-         casefolding = clean_symbol.lower()
-         token=word_tokenize(casefolding)
-         listStopword = set(stopwords.words('indonesian')+stopwords.words('english'))
-         stopword=[]
-         for x in (token):
-            if x not in listStopword:
-               stopword.append(x)
-         factory = StemmerFactory()
-         stemmer = factory.create_stemmer()
-         katastem=[]
-         for x in (stopword):
-           katastem.append(stemmer.stem(x))
-         joinkata = ' '.join(katastem)
-         return clean_symbol,casefolding,token,stopword,katastem,joinkata
-      st.balloons()
-      submit()
