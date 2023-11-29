@@ -12,9 +12,6 @@ from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 
-if __name__ == '__main__':
-    nltk.download('punkt')
-    nltk.download('stopwords')
 Home, Learn, Proses, Model, Implementasi = st.tabs(['Home', 'Learn Data', 'Preprocessing dan TF-IDF', 'Model', 'Implementasi'])
 
 with Home:
