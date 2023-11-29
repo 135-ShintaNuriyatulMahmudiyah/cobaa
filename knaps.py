@@ -5,14 +5,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
 from sklearn import svm
 import re
-#import nltk
-#from nltk.corpus import stopwords
-#from nltk.tokenize import word_tokenize
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 
-
+if __name__ == '__main__':
+    nltk.download('punkt')
+    nltk.download('stopwords')
 Home, Learn, Proses, Model, Implementasi = st.tabs(['Home', 'Learn Data', 'Preprocessing dan TF-IDF', 'Model', 'Implementasi'])
 
 with Home:
